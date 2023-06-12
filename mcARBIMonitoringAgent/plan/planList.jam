@@ -1,0 +1,12 @@
+PREFIXES:
+	PREFIX arbi: <http://www.arbi.com//ontologies#>;
+
+Plan PERFORM loadPlanPackage(){
+	ID: "loadPlanPackage"
+	PRECONDITION:
+		FACT PlanLoader($loader);
+	BODY:
+		$loader.loadPlanPackage("./plan/common");
+		$loader.loadPlanPackage("./plan/fact");
+}
+
