@@ -6,7 +6,7 @@ public class MonitoringAgentTest {
 
 	
 	public static void main(String[] args) {
-		MonitoringAgent agent = new MonitoringAgent("127.0.0.1", 61316);
-		 
+		MonitoringAgent agent = new MonitoringAgent("172.16.165.185", 61314);
+		while(true);
 	}
 }

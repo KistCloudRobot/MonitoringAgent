@@ -59,10 +59,8 @@ public class MonitoringAgent extends ArbiAgent {
 	
 	
 	private void init() {
-		System.out.println("before execute");
-		ArbiAgentExecutor.execute(brokerAddress, brokerPort, MY_ADDRESS, this, BrokerType.ACTIVEMQ);
-		System.out.println("after execute");
-		dataSource.connect(brokerAddress, brokerPort, MY_DATASOURCE_PREFIX, BrokerType.ACTIVEMQ);
+		ArbiAgentExecutor.execute(brokerAddress, brokerPort, MY_ADDRESS, this, brokerType);
+		dataSource.connect(brokerAddress, brokerPort, MY_DATASOURCE_PREFIX, brokerType);
 		
 		messageHandler.assertFact("MessageHandler", messageHandler);
 		messageHandler.assertFact("PlanLoader", planLoader);
@@ -71,6 +69,7 @@ public class MonitoringAgent extends ArbiAgent {
 		
 		logger = new MonitorLogger(this,interpreter);
 
+//		connectToMcARBIAgent("test", "172.16.165.185", 51116, "ZeroMQ");
 		Thread t = new Thread() {
 			public void run() {
 				interpreter.run();
@@ -80,6 +79,24 @@ public class MonitoringAgent extends ArbiAgent {
 		t.start();
 	}
 	
+	public void connectToMcARBIAgent(String agentName, String ip, int port, String brokerType) {
+		Adaptor adaptor = null;
+		if (brokerType.equals("ZeroMQ")) {
+			adaptor = new ZeroMQAdaptor(this, agentName, ip, port);
+		}
+		
+		adaptor.start();
+		messageHandler.assertFact("AgentAdaptor", agentName ,adaptor);
+	}
+	
+	public void createFilter(Adaptor adaptor, String action) {
+		//TODO
+	}
+	@Override
+	public void onData(String sender, String data) {
+		ReceivedMessage message = new ReceivedMessage(sender, data);
+		messageQueue.add(message);
+	}
 	public boolean dequeueMessage() {
 		if (messageQueue.isEmpty())
 			return false;
@@ -118,49 +135,14 @@ public class MonitoringAgent extends ArbiAgent {
 			return true;
 		}
 	}
-	
-	public void connectToMcARBIAgent(String agentName, String ip, int port, String brokerType) {
-		Adaptor adaptor = null;
-		if (brokerType.equals("ZeroMQ")) {
-			adaptor = new ZeroMQAdaptor(this, agentName, ip, brokerPort);
-			adaptor.start();
-			
-			activateLog(adaptor);
-			messageHandler.assertFact("AgentAdaptor", agentName ,adaptor);
-		}
-	}
-	
-	private void activateLog(Adaptor adaptor) {
-		JSONObject createFilterMessage = new JSONObject();
-		createFilterMessage.put("Action", "create monitor");
-		createFilterMessage.put("ID", MY_AGENT_ID);
-		createFilterMessage.put("Protocol", "ZeroMQ");
 
-		JSONArray filterArray = new JSONArray();
-		
-		JSONObject filter5 = new JSONObject();
-		filter5.put("LogType", "SystemLog");
-		filter5.put("Action", "UnpostGoal");
-		filter5.put("Flag", true);
-		filterArray.add(filter5);		
-		
-		JSONObject filter6 = new JSONObject();
-		filter6.put("LogType", "SystemLog");
-		filter6.put("Action", "IntendGoal");
-		filter6.put("Flag", true);
-		filterArray.add(filter6);		
-		
-		JSONObject filter7 = new JSONObject();
-		filter7.put("LogType", "MessageLog");
-		filter7.put("Action", "UpdateFact");
-		filter7.put("Flag", true);
-		filterArray.add(filter7);	
-		
-		createFilterMessage.put("Filter", filterArray);
-		adaptor.send(createFilterMessage.toJSONString());
-	}
 	
 	public String getAgentID() {
-		return MY_ADDRESS;
+		return MY_AGENT_ID;
+	}
+	
+	public static void main(String[] args) {
+
+		MonitoringAgent agent = new MonitoringAgent("172.16.165.185", 61314);
 	}
 }

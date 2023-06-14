@@ -5,27 +5,47 @@ PLAN PERFORM initialize() {
 	BODY :
 		System.out.println("---initialize---");
 		
+		System.out.println("---befor retrieve---");
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/Local", $address, $port);
-		System.out.println("---??---");
+		System.out.println("---??local---");
 		System.out.println($address);
 		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/Local", $address, $port, "ZeroMQ");
-
+		System.out.println("---befor retrieve---");
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/AMR_LIFT1", $address, $port);
+		System.out.println("---??lift1---");
+		System.out.println($address);
+		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/AMR_LIFT1", $address, $port, "ZeroMQ");
+		System.out.println("---befor retrieve---");
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/AMR_LIFT2", $address, $port);
+		System.out.println("---??lift2---");
+		System.out.println($address);
+		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/AMR_LIFT2", $address, $port, "ZeroMQ");
-		
+		System.out.println("---befor retrieve---");
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/AMR_LIFT3", $address, $port);
+		System.out.println("---??lift3---");
+		System.out.println($address);
+		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/AMR_LIFT3", $address, $port, "ZeroMQ");
-		
+		System.out.println("---befor retrieve---");
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/AMR_LIFT4", $address, $port);
+		System.out.println("---??lift4---");
+		System.out.println($address);
+		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/AMR_LIFT4", $address, $port, "ZeroMQ");
-		
+		System.out.println("---befor retrieve---");
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/Palletizer1", $address, $port);
+		System.out.println("---??palletizer---");
+		System.out.println($address);
+		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/Palletizer1", $address, $port, "ZeroMQ");
-		
+		System.out.println("---befor retrieve---");
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/SemanticMap", $address, $port);
+		System.out.println("---??smm---");
+		System.out.println($address);
+		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/SemanticMap", $address, $port, "ZeroMQ");
 		System.out.println("---??---");
 		
