@@ -1,0 +1,35 @@
+PLAN PERFORM initialize() {
+	ID : "initializeForMonitor"
+	PRECONDITION :
+		FACT TaskManager($tm);
+	BODY :
+		System.out.println("---initialize---");
+		
+		RETRIEVE MonitorEntity("agent://www.mcarbi.com/Local", $address, $port);
+		System.out.println("---??---");
+		System.out.println($address);
+		System.out.println($port);
+		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/Local", $address, $port, "ZeroMQ");
+
+		RETRIEVE MonitorEntity("agent://www.mcarbi.com/AMR_LIFT1", $address, $port);
+		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/AMR_LIFT1", $address, $port, "ZeroMQ");
+		RETRIEVE MonitorEntity("agent://www.mcarbi.com/AMR_LIFT2", $address, $port);
+		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/AMR_LIFT2", $address, $port, "ZeroMQ");
+		
+		RETRIEVE MonitorEntity("agent://www.mcarbi.com/AMR_LIFT3", $address, $port);
+		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/AMR_LIFT3", $address, $port, "ZeroMQ");
+		
+		RETRIEVE MonitorEntity("agent://www.mcarbi.com/AMR_LIFT4", $address, $port);
+		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/AMR_LIFT4", $address, $port, "ZeroMQ");
+		
+		RETRIEVE MonitorEntity("agent://www.mcarbi.com/Palletizer1", $address, $port);
+		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/Palletizer1", $address, $port, "ZeroMQ");
+		
+		RETRIEVE MonitorEntity("agent://www.mcarbi.com/SemanticMap", $address, $port);
+		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/SemanticMap", $address, $port, "ZeroMQ");
+		System.out.println("---??---");
+		
+		
+	UTILITY : 10000;
+}
+

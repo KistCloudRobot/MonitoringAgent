@@ -1,0 +1,10 @@
+FACTS :
+	FACT MonitorEntity("agent://www.mcarbi.com/Local", "172.16.165.185", 51316);
+	FACT MonitorEntity("agent://www.mcarbi.com/SemanticMap", "172.16.165.185",  51315);
+	FACT MonitorEntity("agent://www.mcarbi.com/AMR_LIFT1", "172.16.165.185", 51116);
+	FACT MonitorEntity("agent://www.mcarbi.com/AMR_LIFT2", "172.16.165.185", 51115);
+	FACT MonitorEntity("agent://www.mcarbi.com/AMR_LIFT3", "172.16.165.185", 51114);
+	FACT MonitorEntity("agent://www.mcarbi.com/AMR_LIFT4", "172.16.165.185", 51113);
+	FACT MonitorEntity("agent://www.mcarbi.com/Palletizer1", "172.16.165.185", 51112);
+	
+	

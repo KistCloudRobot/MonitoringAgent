@@ -36,7 +36,7 @@ public class ZeroMQAdaptor implements Adaptor{
 
 //              System.out.println("Received request:");
 //              System.out.println("Recipient: " + receivedRecipient);
-//              System.out.println("Message: " + receivedMessage);
+                System.out.println("Message: " + receivedMessage);
 
                 agent.onData(mcARBIAgentName, receivedMessage);
 				
