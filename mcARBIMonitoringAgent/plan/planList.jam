@@ -8,5 +8,6 @@ Plan PERFORM loadPlanPackage(){
 	BODY:
 		$loader.loadPlanPackage("./plan/common");
 		$loader.loadPlanPackage("./plan/fact");
+		$loader.loadPlanPackage("./plan/ion");
 }
 

@@ -12,6 +12,7 @@ import org.zeromq.ZMQ.Context;
 import org.zeromq.ZMQ.Socket;
 
 import kr.ac.uos.ai.mcarbi.monitor.MonitoringAgent;
+import kr.ac.uos.ai.mcarbi.monitor.message.ReceivedMessage;
 import test.interactionManager.TestZeroMQMonitor; 
 
 public class ZeroMQAdaptor implements Adaptor{
@@ -42,8 +43,11 @@ public class ZeroMQAdaptor implements Adaptor{
 			while (true) {
 //				System.out.println("message receiving");
 				String message = "";
-				while(message.length() == 0) {
+				while(true) {
 					message = zmqSocket.recvStr();
+					if(message != null) {
+						if(message.contains("{") || message.contains("}")) break;
+					}
 				}
 				System.out.println("on message : " + message);
 
@@ -55,11 +59,11 @@ public class ZeroMQAdaptor implements Adaptor{
 					
 					Decoder decoder = Base64.getDecoder();
 					String afterContent = new String(decoder.decode(content.getBytes()));
-					System.out.println("after content : " + afterContent);
+//					System.out.println("after content : " + afterContent);
 					
-                	System.out.println("Message: " + content);
-
-                	agent.onData(mcARBIAgentName, afterContent);
+//                	System.out.println("Message: " + content);
+					ReceivedMessage receivedMessage = new ReceivedMessage(mcARBIAgentName, messageObject.get("Action").toString(), afterContent);
+                	agent.queueMessage(receivedMessage);
 				
 //				try {
 //					JSONParser jsonParser = new JSONParser();
@@ -74,7 +78,8 @@ public class ZeroMQAdaptor implements Adaptor{
 //					
 				} catch (Exception e) {
 					e.printStackTrace();
-					System.err.println("parsing error");
+					System.err.println("parsing error from " + mcARBIAgentName);
+					System.err.println("parsing error message " + message);
 				}
 			} 
 		}
@@ -98,32 +103,38 @@ public class ZeroMQAdaptor implements Adaptor{
 //		filter1.put("Flag", true);
 //		filterArray.add(filter1);
 //		
-//		JSONObject filter2 = new JSONObject();
-//		filter2.put("LogType", "MessageLog");
-//		filter2.put("Action", "AssertFact");
-//		filter2.put("Flag", true);
-//		filterArray.add(filter2);
-		
-		JSONObject filter3 = new JSONObject();
-		filter3.put("LogType", "SystemLog");
-		filter3.put("Actor", "agent://www.arbi.com/TaskManager");
-		filter3.put("Action", "IntendGoal");
-		filter3.put("Flag", true);
-		filterArray.add(filter3);
+		JSONObject filter2 = new JSONObject();
+		filter2.put("LogType", "MessageLog");
+		filter2.put("Action", "AssertFact");
+		filter2.put("Flag", true);
+		filterArray.add(filter2);
 		
 		JSONObject filter4 = new JSONObject();
 		filter4.put("LogType", "MessageLog");
 		filter4.put("Action", "UpdateFact");
 		filter4.put("Flag", true);
 		filterArray.add(filter4);
-		
-		
-		JSONObject filter5 = new JSONObject();
-		filter5.put("LogType", "SystemLog");
-		filter5.put("Actor", "agent://www.arbi.com/TaskManager");
-		filter5.put("Action", "UnpostGoal");
-		filter5.put("Flag", true);
-		filterArray.add(filter5);
+//		
+//		JSONObject filter3 = new JSONObject();
+//		filter3.put("LogType", "SystemLog");
+//		filter3.put("Actor", "agent://www.arbi.com/TaskManager");
+//		filter3.put("Action", "AssertWorldModel");
+//		filter3.put("Flag", true);
+//		filterArray.add(filter3);
+////		
+//		JSONObject filter5 = new JSONObject();
+//		filter5.put("LogType", "SystemLog");
+//		filter5.put("Actor", "agent://www.arbi.com/TaskManager");
+//		filter5.put("Action", "UnpostGoal");
+//		filter5.put("Flag", true);
+//		filterArray.add(filter5);
+//		
+//		JSONObject filter6 = new JSONObject();
+//		filter6.put("LogType", "SystemLog");
+//		filter6.put("Actor", "agent://www.arbi.com/TaskManager");
+//		filter6.put("Action", "PostGoal");
+//		filter6.put("Flag", true);
+//		filterArray.add(filter6);
 		createMonitorMessage.put("Filter", filterArray);
 		
 		zmqSocket.sendMore("");

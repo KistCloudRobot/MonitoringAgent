@@ -1,0 +1,39 @@
+PLAN CONCLUDE UpdateTaskCount() {
+	ID: "http://www.arbi.com//UpdateTaskCount"
+	PRECONDITION :
+		FACT TaskTracker($tracker);
+		FACT TaskManager($tm); 
+	BODY:
+		PERFORM isro:startLog("CONCLUDE", "UpdateTaskCount");
+	
+		$remainingTaskCount = $tracker.getPendingTasksCount();
+		$remainingTaskContext = "(RemainingTaskCount " + $remainingTaskCount +")";
+		$tm.assertFactToLTM($remainingTaskContext);
+		
+		$completeTaskCount = $tracker.getCompletedTasksCount();
+		$completeTaskContext = "(CompletedTaskCount " + $completeTaskCount +")";
+		$tm.assertFactToLTM($completeTaskContext);
+		
+		$ongoingTaskCount = $tracker.getOngoingTasksCount();
+		$ongoingTaskContext = "(OngoingTaskCount " + $ongoingTaskCount +")";
+		$tm.assertFactToLTM($ongoingTaskContext);
+		
+		$newTaskCount = $tracker.getNewTasksCount();
+		$newTaskContext = "(NewTaskCount " + $newTaskCount +")";
+		$tm.assertFactToLTM($newTaskContext);
+		
+		$averageSpeed = $tracker.getAverageSpeed();
+		$averageTaskContext = "(AverageTaskSpeed " + $averageSpeed +")";
+		$tm.assertFactToLTM($averageTaskContext);
+		
+		$cumulativeSpeed = $tracker.getCumulativeSpeed();
+		$cumulativeTaskContext = "(CumulativeTaskSpeed " + $cumelativeSpeed +")";
+		$tm.assertFactToLTM($cumulativeTaskContext);
+		
+		ASSERT UpdateTaskCount();
+		
+		PERFORM isro:endLog("CONCLUDE", "UpdateTaskCount");
+	EFFECTS :
+		RETRACT UpdateTaskCount();
+	UTILITY: 10000; 
+}

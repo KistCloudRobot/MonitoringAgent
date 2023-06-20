@@ -4,7 +4,7 @@ PLAN PERFORM initialize() {
 		FACT TaskManager($tm);
 	BODY :
 		System.out.println("---initialize---");
-		
+		/*
 		System.out.println("---befor retrieve---");
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/Local", $address, $port);
 		System.out.println("---??local---");
@@ -42,6 +42,7 @@ PLAN PERFORM initialize() {
 		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/Palletizer1", $address, $port, "ZeroMQ");
 		System.out.println("---befor retrieve---");
+		*/
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/SemanticMap", $address, $port);
 		System.out.println("---??smm---");
 		System.out.println($address);

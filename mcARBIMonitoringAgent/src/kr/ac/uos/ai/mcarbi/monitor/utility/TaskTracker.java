@@ -1,6 +1,6 @@
 package kr.ac.uos.ai.mcarbi.monitor.utility;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,29 +11,74 @@ public class TaskTracker {
         tasks = new ArrayList<>();
     }
 
-    public void registerTask(int id) {
+    public void registerTask(String id) {
     	AgentTask task = new AgentTask(id);
         tasks.add(task);
     }
-    // 최근 1시간 내에 등록된 작업 개수
-    public int getRecentTasksCount() {
-        LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
+    
+    public void startTask(String id) {
+    	for(AgentTask task : tasks) {
+    		if(task.getID().equals(id)) {
+    			task.setStartTime(System.currentTimeMillis());
+    			break;
+    		}
+    	}
+    }
+    
+    public void completeTask(String id) {
+    	for(AgentTask t : tasks) {
+    		if(t.getID().equals(id)) {
+    			t.setEndTime(System.currentTimeMillis());
+    			break;
+    		}
+    	}
+    }
+    
+    public int getOngoingTasksCount() {
         return (int) tasks.stream()
-                .filter(task -> task.getStartTime().isAfter(oneHourAgo))
+                .filter(task -> !task.isCompleted() && task.isStarted())
                 .count();
     }
-    // 아직 완료되지 않은 작업 개수
+    
     public int getPendingTasksCount() {
         return (int) tasks.stream()
                 .filter(task -> !task.isCompleted())
                 .count();
     }
-    // 최근 1시간 이내에 완료된 작업 개수
+
     public int getCompletedTasksCount() {
-        LocalDateTime oneHourAgo = LocalDateTime.now().minusHours(1);
+        long oneMinuteAgo = System.currentTimeMillis() - (60 * 1000);
         return (int) tasks.stream()
-                .filter(task -> task.isCompleted() && task.getEndTime().isAfter(oneHourAgo))
+                .filter(task -> task.isCompleted() && task.getEndTime() > oneMinuteAgo)
                 .count();
+    }
+
+    public int getNewTasksCount() {
+    	long oneMinuteAgo = System.currentTimeMillis() - (60 * 1000);
+        return (int) tasks.stream()
+                .filter(task -> task.getStartTime() > oneMinuteAgo)
+                .count();
+    }
+    
+    public double getAverageSpeed() {
+        double sumSpeed = tasks.stream()
+                .filter(AgentTask::isCompleted)
+                .mapToDouble(AgentTask::getTaskAverageSpeed)
+                .sum();
+        int completedTasks = (int) tasks.stream().filter(AgentTask::isCompleted).count();
+        if (completedTasks == 0) {
+            return 0.0;
+        }
+        return sumSpeed / completedTasks;
+    }
+
+    public double getCumulativeSpeed() {
+        double cumulativeSpeed = 0.0;
+        
+        long currentEndTime = 0;
+        AgentTask task = tasks.get(0);
+        long duration = System.currentTimeMillis() - task.getStartTime();
+        return duration / tasks.size();
     }
     
     public int getAllTaskCount() {

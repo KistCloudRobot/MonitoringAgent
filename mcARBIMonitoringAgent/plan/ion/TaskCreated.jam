@@ -1,0 +1,16 @@
+PLAN CONCLUDE TaskCreated($goalID) {
+	ID: "http://www.arbi.com//TaskCreated"
+	PRECONDITION :
+		FACT TaskManager($tm);
+		FACT TaskTracker($tracker);
+	BODY:
+		PERFORM isro:startLog("CONCLUDE", "TaskCreated");
+	
+		$tracker.registTask($goalID);
+		ASSERT UpdateTaskCount();
+		
+		PERFORM isro:endLog("CONCLUDE", "TaskCreated");
+	EFFECTS :
+		RETRACT TaskCreated($goalID);
+	UTILITY: 10000; 
+}

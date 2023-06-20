@@ -9,7 +9,7 @@ GOALS:
 	PERFORM	boot;
 	
 FACTS:
-	FACT LOG;
+	//FACT LOG;
 	FACT AGENT_ALIAS("TaskManager",	"agent://www.arbi.com/TaskManager" );
 	FACT CURRENT_TIME (0);
 

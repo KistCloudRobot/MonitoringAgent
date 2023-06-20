@@ -33,38 +33,13 @@ public class MessageHandler {
 	}
 	
 	public String contains(String input, String text) {
-		if(input.contains(text)) {
-			return "true";
-		}
-		
-		return "false";
+		if(input.contains(text)) return "true";
+		else return "false";
 	}
 	
 	public void removePlan(String planID) {
 		interpreter.getPlanLibrary().removePlan(planID);
 	}
-	
-	public MessageHandler() {
-	}
-
-	public String retrieveElement(String input) {
-
-		GeneralizedList list = null;
-		String result = "";
-		try {
-			list = GLFactory.newGLFromGLString(input);
-
-			for (int i = 0; i < list.getExpressionsSize(); i++) {
-				result += removeQuotationMarks(list.getExpression(i).toString()) + ", ";
-			}
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return result;
-	}
-	
 	
 	public String removeQuotationMarks(Object input) {
 		String data = input.toString();
@@ -102,13 +77,6 @@ public class MessageHandler {
 		return result;
 	}
 
-	public int getUtility(int value) {
-		System.out.println("utility value : " + value);
-
-		return value;
-	}
-
-	
 	public String retrieveGLExpression(String input, int i) {
 		String result = "";
 		
@@ -133,27 +101,6 @@ public class MessageHandler {
 		}
 
 		//result = this.removeQuotationMarks(result);
-		return result;
-	}
-
-	public String retrieveNonGLExpression(String input, int i) {
-		String result = "";
-		result = input.split(" ")[i];
-
-		return result;
-	}
-
-	public String retrieveGLGoal(String input) {
-		String result = "";
-
-		try {
-			GeneralizedList gl = GLFactory.newGLFromGLString(input);
-			result = gl.getName();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return result;
 	}
 

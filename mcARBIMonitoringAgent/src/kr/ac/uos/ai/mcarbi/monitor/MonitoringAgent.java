@@ -92,9 +92,14 @@ public class MonitoringAgent extends ArbiAgent {
 	public void createFilter(Adaptor adaptor, String action) {
 		//TODO
 	}
+	
 	@Override
 	public void onData(String sender, String data) {
-		ReceivedMessage message = new ReceivedMessage(sender, data);
+		ReceivedMessage message = new ReceivedMessage(sender, "onData",data);
+		messageQueue.add(message);
+	}
+	
+	public void queueMessage(ReceivedMessage message) {
 		messageQueue.add(message);
 	}
 	public boolean dequeueMessage() {
@@ -103,14 +108,14 @@ public class MonitoringAgent extends ArbiAgent {
 		else {
 			try {
 				ReceivedMessage message = messageQueue.take();
-				System.out.println("[SENDER]  : " + message.getSender());
-				System.out.println("[MESSAGE] : " + message.getMessage());
+//				System.out.println("[SENDER]  : " + message.getSender());
 				
-				
+				messageHandler.assertFact("MessageReceived", message);
 //				if(message.getMessage().startsWith("(")) {
 //					GeneralizedList gl = null;
+////					System.out.println("[MESSAGE] : " + message.getMessage());
 //					String data = message.getMessage();
-//					String sender = message.getSender();
+////					String sender = message.getSender();
 //
 //					gl = GLFactory.newGLFromGLString(data);
 //
@@ -124,7 +129,7 @@ public class MonitoringAgent extends ArbiAgent {
 //					
 //					messageHandler.assertJSON(json);
 //				}
-//
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -141,8 +146,20 @@ public class MonitoringAgent extends ArbiAgent {
 		return MY_AGENT_ID;
 	}
 	
+	
 	public static void main(String[] args) {
-
 		MonitoringAgent agent = new MonitoringAgent("172.16.165.185", 61314);
+	}
+	
+	public void assertFact(String input) {
+		messageHandler.assertGL(input);
+	}
+	
+	public void assertFactToLTM(String context) {
+		dataSource.assertFact(context);
+	}
+	
+	public void updateFactToLTM(String fact) {
+		dataSource.updateFact(fact);
 	}
 }

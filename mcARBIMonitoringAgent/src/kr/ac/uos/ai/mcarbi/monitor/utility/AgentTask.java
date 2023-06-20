@@ -3,28 +3,50 @@ package kr.ac.uos.ai.mcarbi.monitor.utility;
 import java.time.LocalDateTime;
 
 public class AgentTask {
-	private int id;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+	private String id;
+    private long startTime;
+    private long endTime;
 
-    public AgentTask(int id) {
+    public AgentTask(String id) {
         this.id = id;
-        this.startTime = LocalDateTime.now();
+        this.startTime = 0;
+        this.endTime = 0;
     }
     
-    public void setEndTime(LocalDateTime endTime) {
+    public void setStartTime(long startTime) {
+    	if (this.startTime == 0) this.startTime = startTime;
+	}
+    public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
     
-    public LocalDateTime getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
+    public boolean isStarted() {
+    	return startTime != 0;
+    }
     public boolean isCompleted() {
-        return endTime != null;
+        return endTime != 0;
+    }
+    
+    public String getID() {
+    	return id;
+    }
+    
+    public double getTaskAverageSpeed() {
+        if (isCompleted()) {
+            long duration = endTime - startTime;
+            if (duration == 0) {
+                return 0.0;
+            }
+            return Double.parseDouble(id) / (duration / (1000.0 * 60));
+        }
+        return 0.0;
     }
 }
