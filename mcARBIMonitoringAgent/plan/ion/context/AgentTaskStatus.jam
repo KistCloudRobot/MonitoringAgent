@@ -1,0 +1,29 @@
+PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
+	ID: "http://www.arbi.com//AgentTaskStatus"
+	PRECONDITION:
+	BODY:
+		PERFORM UpdateToLTM($robot, "AgentTaskStatus");
+	UTILITY : 100;
+}
+
+PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
+	ID: "http://www.arbi.com//AgentTaskStatus"
+	PRECONDITION:
+		$status == "start";
+	BODY:
+		PERFORM UpdateTaskProgress($robot, $taskName);
+		PERFORM UpdateToLTM($robot, "AgentTaskStatus");
+	UTILITY : 101;
+}
+
+PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
+	ID: "http://www.arbi.com//AgentTaskStatus"
+	PRECONDITION:
+		$taskName == "MoveToLocation";
+		$status == "start";
+	BODY:
+		PERFORM  TaskStarted($id);
+		PERFORM UpdateTaskProgress($robot, $taskName);
+		PERFORM UpdateToLTM($robot, "AgentTaskStatus");
+	UTILITY : 102;
+}

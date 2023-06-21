@@ -1,0 +1,12 @@
+PREFIXES:
+		PREFIX isro: <http://www.arbi.com//BuiltInPlan#>;
+
+
+PLAN CONCLUDE robotPosition($robotID, $x, $y){
+	ID: "http://www.arbi.com//concludeRobotPosition"
+	PRECONDITION:
+	BODY:
+		PERFORM UpdateToLTM($robot, "robotPosition");
+	UTILITY : 200;
+}
+

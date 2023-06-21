@@ -1,0 +1,11 @@
+PREFIXES:
+		PREFIX isro: <http://www.arbi.com//BuiltInPlan#>;
+
+
+PLAN CONCLUDE robotDegree($robotID, $degree){
+	ID: "http://www.arbi.com//concludeRobotDegree"
+	PRECONDITION:
+	BODY:
+		PERFORM UpdateToLTM($robot, "robotDegree");
+	UTILITY : 200;
+}

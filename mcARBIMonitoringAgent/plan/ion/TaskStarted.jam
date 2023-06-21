@@ -1,0 +1,14 @@
+PLAN PERFORM TaskStarted($goalID) {
+	ID: "http://www.arbi.com//TaskStarted"
+	PRECONDITION :
+		FACT TaskManager($tm);
+		FACT TaskTracker($tracker);
+	BODY:
+		PERFORM isro:startLog("PERFORM", "TaskStarted");
+	
+		$tracker.startTask($goalID);
+		PERFORM UpdateTaskCount();
+		
+		PERFORM isro:endLog("PERFORM", "TaskStarted");
+	UTILITY: 10000; 
+}

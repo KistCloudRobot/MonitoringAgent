@@ -3,10 +3,11 @@ PLAN CONCLUDE MessageReceived($message) {
 	PRECONDITION :
 		FACT TaskManager($tm);
 		$message.getAction() == "UpdateFact";
+		FACT MessageHandler($handler);
 	BODY:
 		//PERFORM isro:startLog("CONCLUDE", "ReceivedMessage");
 		
-		$tm.updateFactToLTM($message.getMessage());
+		$handler.updateGL($message.getMessage());
 				
 		//PERFORM isro:endLog("CONCLUDE", "ReceivedMessage");
 	EFFECTS :
@@ -19,12 +20,12 @@ PLAN CONCLUDE MessageReceived($message) {
 	PRECONDITION :
 		FACT TaskManager($tm);
 		$message.getAction() == "AssertFact";
+		FACT MessageHandler($handler);
 	BODY:
 		//PERFORM isro:startLog("CONCLUDE", "ReceivedMessage");
 		
-		$tm.assertFactToLTM($message.getMessage());
+		$handler.assertGL($message.getMessage());
 		
-				
 		//PERFORM isro:endLog("CONCLUDE", "ReceivedMessage");
 	EFFECTS :
 		RETRACT ReceivedMessage($message);
@@ -35,11 +36,12 @@ PLAN CONCLUDE MessageReceived($message) {
 	ID: "http://www.arbi.com//MessageReceived_Default"
 	PRECONDITION :
 		FACT TaskManager($tm);
+		FACT MessageHandler($handler);
 	BODY:
 		//PERFORM isro:startLog("CONCLUDE", "ReceivedMessage");
 		
-		$tm.assertFact($message.getMessage());
-				
+		$handler.assertGL($message.getMessage());
+		
 		//PERFORM isro:endLog("CONCLUDE", "ReceivedMessage");
 	EFFECTS :
 		RETRACT ReceivedMessage($message);

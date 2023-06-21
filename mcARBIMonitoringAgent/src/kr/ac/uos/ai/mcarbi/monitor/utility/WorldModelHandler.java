@@ -1,108 +1,26 @@
-package kr.ac.uos.ai.mcarbi.monitor.message;
+package kr.ac.uos.ai.mcarbi.monitor.utility;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.arbi.model.parser.ParseException;
 import uos.ai.jam.Interpreter;
-import uos.ai.jam.exception.AgentRuntimeException;
 import uos.ai.jam.expression.Expression;
 import uos.ai.jam.expression.Relation;
 import uos.ai.jam.expression.Value;
-import uos.ai.jam.plan.action.AchieveGoalAction;
 
-public class MessageHandler {
-	private Interpreter interpreter;
+public class WorldModelHandler {
+
+	private Interpreter			interpreter;
 	
-	
-	public MessageHandler(Interpreter interpreter) {
+	public WorldModelHandler(Interpreter interpreter) {
 		this.interpreter = interpreter;
 	}
 	
-	public int toInteger(String input) {
-		double doub = Double.parseDouble(input);
-		int result = (int) doub;
-
-		return result;
-	}
-	
-	public String contains(String input, String text) {
-		if(input.contains(text)) return "true";
-		else return "false";
-	}
-	
-	public void removePlan(String planID) {
-		interpreter.getPlanLibrary().removePlan(planID);
-	}
-	
-	public String removeQuotationMarks(Object input) {
-		String data = input.toString();
-		if (data.startsWith("\"")) {
-			data = data.substring(1, data.length() - 1);
-		}
-		return data;
-	}
-	
-	public String retrieveGLName(String glString) {
-		String result = "";
-		try {
-			GeneralizedList gl = GLFactory.newGLFromGLString(glString);
-			result = gl.getName();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
-		
-		return result;
-	}
-	
-	
-	public int retrieveExpressionSize(String expression) {
-		int result = 0;
-
-		try {
-			GeneralizedList gl = GLFactory.newGLFromGLString(expression);
-			result = gl.getExpressionsSize();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return result;
-	}
-
-	public String retrieveGLExpression(String input, int i) {
-		String result = "";
-		
-		//System.out.println("why? : " + input);
-		if (input.startsWith("\"")) {
-			input = removeQuotationMarks(input);
-		}
-		try {
-			GeneralizedList gl = GLFactory.newGLFromGLString(input);
-
-			if(gl.getExpression(i).isValue()) {
-
-				result = gl.getExpression(i).asValue().stringValue();
-			} else if (gl.getExpression(i).isGeneralizedList()) {
-				result = gl.getExpression(i).asGeneralizedList().toString();
-			}
-				
-
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		//result = this.removeQuotationMarks(result);
-		return result;
-	}
 
 	public void assertFact(String name, Object... args) {
 		interpreter.getWorldModel().assertFact(name, args);
@@ -129,10 +47,10 @@ public class MessageHandler {
 
 	}
 	
-	public void assertJSON(JSONObject data) {
-		String name = "";
-
-
+//	public void assertJSON(JSONObject data) {
+//		String name = "";
+//
+//
 //		try {
 //			name = data.get("Action").toString();
 //			Object[] expressionList = new Object[data.get()];
@@ -160,8 +78,8 @@ public class MessageHandler {
 //		} catch (ParseException e) {
 //			e.printStackTrace();
 //		}
-		
-	}
+//		
+//	}
 	public void assertGL(String input) {
 		String name = "";
 
@@ -202,22 +120,20 @@ public class MessageHandler {
 		}
 	}
 	
-	public void updateContextGL(String context) {
+	public void updateGL(String context) {
 		String oldContext = "";
+		String newContext = "";
 		if (context.startsWith("(")) {
 			try {
 				GeneralizedList gl = GLFactory.newGLFromGLString(context);
-				oldContext = "(" + gl.getName();
-				for(int i = 0; i < gl.getExpressionsSize(); i++) {
-					oldContext = oldContext + " $v";
-				}
+				oldContext = gl.getExpression(0).asGeneralizedList().toString();
+				newContext = gl.getExpression(1).asGeneralizedList().toString();
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		oldContext = oldContext + ")";
-		updateFact(oldContext, context);
+		updateFact(oldContext, newContext);
 	}
 	
 	public void updateFact(String string, String string2) {
@@ -245,20 +161,4 @@ public class MessageHandler {
 			}
 		}
 	}
-	
-	public String escapeGL(String gl) {
-//		System.out.println("start escape : " + gl);
-		String result = GLFactory.escape(gl);
-		System.out.println(result);
-		return result;
-	}
-	public String unescapeGL(Object input) {
-
-//		System.out.println("unescape GL ?????? " + input.getClass().getSimpleName());
-		String gl = input.toString();
-		
-		return GLFactory.unescape(gl);
-	}
-
-
 }

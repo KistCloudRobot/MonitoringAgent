@@ -7,7 +7,7 @@ PLAN CONCLUDE TaskCreated($goalID) {
 		PERFORM isro:startLog("CONCLUDE", "TaskCreated");
 	
 		$tracker.registTask($goalID);
-		ASSERT UpdateTaskCount();
+		PERFORM UpdateTaskCount();
 		
 		PERFORM isro:endLog("CONCLUDE", "TaskCreated");
 	EFFECTS :

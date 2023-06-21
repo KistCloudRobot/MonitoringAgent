@@ -44,11 +44,9 @@ PLAN PERFORM initialize() {
 		System.out.println("---befor retrieve---");
 		*/
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/SemanticMap", $address, $port);
-		System.out.println("---??smm---");
-		System.out.println($address);
-		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/SemanticMap", $address, $port, "ZeroMQ");
-		System.out.println("---??---");
+		
+		$rule = "(rule (fact (AgentTaskStatus $v1 $v2 $v3 $v4)) --> (notify (AgentTaskStatus $v1 $v2 $v3 $v4)))";
 		
 		
 	UTILITY : 10000;

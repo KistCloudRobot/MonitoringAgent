@@ -8,7 +8,7 @@ PLAN CONCLUDE TaskCompleted($goalID) {
 	
 		$tracker.completeTask($goalID);
 		
-		ASSERT UpdateTaskCount();
+		PERFORM UpdateTaskCount();
 		
 		PERFORM isro:endLog("CONCLUDE", "TaskCompleted");
 	EFFECTS :

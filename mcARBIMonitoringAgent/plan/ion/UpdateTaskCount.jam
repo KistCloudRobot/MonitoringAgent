@@ -1,38 +1,38 @@
-PLAN CONCLUDE UpdateTaskCount() {
+PLAN PERFORM UpdateTaskCount() {
 	ID: "http://www.arbi.com//UpdateTaskCount"
 	PRECONDITION :
 		FACT TaskTracker($tracker);
 		FACT TaskManager($tm); 
 	BODY:
-		PERFORM isro:startLog("CONCLUDE", "UpdateTaskCount");
+		PERFORM isro:startLog("PERFORM", "UpdateTaskCount");
 	
 		$remainingTaskCount = $tracker.getPendingTasksCount();
 		$remainingTaskContext = "(RemainingTaskCount " + $remainingTaskCount +")";
-		$tm.assertFactToLTM($remainingTaskContext);
+		$tm.assertFact($remainingTaskContext);
 		
 		$completeTaskCount = $tracker.getCompletedTasksCount();
 		$completeTaskContext = "(CompletedTaskCount " + $completeTaskCount +")";
-		$tm.assertFactToLTM($completeTaskContext);
+		$tm.assertFact($completeTaskContext);
 		
 		$ongoingTaskCount = $tracker.getOngoingTasksCount();
 		$ongoingTaskContext = "(OngoingTaskCount " + $ongoingTaskCount +")";
-		$tm.assertFactToLTM($ongoingTaskContext);
+		$tm.assertFact($ongoingTaskContext);
 		
 		$newTaskCount = $tracker.getNewTasksCount();
 		$newTaskContext = "(NewTaskCount " + $newTaskCount +")";
-		$tm.assertFactToLTM($newTaskContext);
+		$tm.assertFact($newTaskContext);
 		
 		$averageSpeed = $tracker.getAverageSpeed();
 		$averageTaskContext = "(AverageTaskSpeed " + $averageSpeed +")";
-		$tm.assertFactToLTM($averageTaskContext);
+		$tm.assertFact($averageTaskContext);
 		
 		$cumulativeSpeed = $tracker.getCumulativeSpeed();
 		$cumulativeTaskContext = "(CumulativeTaskSpeed " + $cumelativeSpeed +")";
-		$tm.assertFactToLTM($cumulativeTaskContext);
+		$tm.assertFact($cumulativeTaskContext);
 		
 		ASSERT UpdateTaskCount();
 		
-		PERFORM isro:endLog("CONCLUDE", "UpdateTaskCount");
+		PERFORM isro:endLog("PERFORM", "UpdateTaskCount");
 	EFFECTS :
 		RETRACT UpdateTaskCount();
 	UTILITY: 10000; 
