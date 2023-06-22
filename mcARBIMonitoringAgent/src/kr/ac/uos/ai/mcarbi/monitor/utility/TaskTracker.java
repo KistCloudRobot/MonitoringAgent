@@ -10,7 +10,8 @@ public class TaskTracker {
         tasks = new ArrayList<>();
     }
 
-    public void registerTask(String id) {
+    public void registeTask(String id) {
+    	System.out.println("new Task! " + id);
     	AgentTask task = new AgentTask(id);
         tasks.add(task);
     }
@@ -18,6 +19,8 @@ public class TaskTracker {
     public void startTask(String id) {
     	for(AgentTask task : tasks) {
     		if(task.getID().equals(id)) {
+
+    	    	System.out.println("Task start! " + id);
     			task.setStartTime(System.currentTimeMillis());
     			break;
     		}
@@ -27,6 +30,7 @@ public class TaskTracker {
     public void completeTask(String id) {
     	for(AgentTask t : tasks) {
     		if(t.getID().equals(id)) {
+    	    	System.out.println("Task complete! " + id);
     			t.setEndTime(System.currentTimeMillis());
     			break;
     		}

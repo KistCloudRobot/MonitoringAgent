@@ -23,6 +23,7 @@ PLAN PERFORM initialize() {
 		System.out.println($address);
 		System.out.println($port);
 		$tm.connectToMcARBIAgent("agent://www.mcarbi.com/AMR_LIFT2", $address, $port, "ZeroMQ");
+
 		System.out.println("---befor retrieve---");
 		RETRIEVE MonitorEntity("agent://www.mcarbi.com/AMR_LIFT3", $address, $port);
 		System.out.println("---??lift3---");

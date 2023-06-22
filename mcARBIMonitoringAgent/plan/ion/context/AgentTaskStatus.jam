@@ -7,7 +7,7 @@ PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
 }
 
 PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
-	ID: "http://www.arbi.com//AgentTaskStatus"
+	ID: "http://www.arbi.com//AgentTaskStatusStart"
 	PRECONDITION:
 		$status == "start";
 	BODY:
@@ -17,7 +17,7 @@ PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
 }
 
 PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
-	ID: "http://www.arbi.com//AgentTaskStatus"
+	ID: "http://www.arbi.com//AgentTaskStatusTaskStarted"
 	PRECONDITION:
 		$taskName == "MoveToLocation";
 		$status == "start";

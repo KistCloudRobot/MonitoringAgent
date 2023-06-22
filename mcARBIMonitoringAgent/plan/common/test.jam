@@ -1,0 +1,25 @@
+PLAN PERFORM testUpdate() {
+	ID: "testUpdate"
+	PRECONDITION :
+		FACT TaskManager($tm);
+		FACT WorldModelHandler($handler); 
+	
+	BODY:
+		System.out.println("start test");
+		$data = "(testGL \"test\" $v1)";
+		//$handler.assertGL($data);
+		//RETRIEVE testGL($v, $v2);
+		//System.out.println("$v is " +$v);
+		
+		//System.out.println("$v2 is " +$v2);
+		
+		//$handler.retractGL($data);
+		//System.out.println("retracted?");
+		
+		$updateData = "(update " + $data + " (testGL \"test2\" $v3))";
+		$handler.updateGL($updateData);
+		
+		RETRIEVE testGL($v, $v3);
+		System.out.println("$v3 is " +$v3);
+		
+}

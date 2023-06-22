@@ -1,9 +1,8 @@
 package kr.ac.uos.ai.mcarbi.monitor.utility;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-
-import org.json.simple.JSONObject;
 
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
@@ -11,7 +10,10 @@ import kr.ac.uos.ai.arbi.model.parser.ParseException;
 import uos.ai.jam.Interpreter;
 import uos.ai.jam.expression.Expression;
 import uos.ai.jam.expression.Relation;
+import uos.ai.jam.expression.Symbol;
+import uos.ai.jam.expression.SymbolTable;
 import uos.ai.jam.expression.Value;
+import uos.ai.jam.expression.Variable;
 
 public class WorldModelHandler {
 
@@ -23,106 +25,21 @@ public class WorldModelHandler {
 	
 
 	public void assertFact(String name, Object... args) {
-		interpreter.getWorldModel().assertFact(name, args);
+		interpreter.getWorldModel().assertFact(newRelation(name, args), null);
 	}
 
-	public void retractFact(String expression) {
-
-		GeneralizedList gl = null;
-		try {
-			gl = GLFactory.newGLFromGLString(expression);
-			String name = gl.getName();
-			List<Expression> expList = new ArrayList<Expression>();
-
-			for (int i = 0; i < gl.getExpressionsSize(); i++) {
-				String expressionValue = gl.getExpression(i).toString();
-				expList.add(new Value(expressionValue));
-			}
-
-			Relation r = interpreter.getWorldModel().newRelation(name, expList);
-			interpreter.getWorldModel().retract(r, null);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-	}
-	
-//	public void assertJSON(JSONObject data) {
-//		String name = "";
-//
-//
-//		try {
-//			name = data.get("Action").toString();
-//			Object[] expressionList = new Object[data.get()];
-//				for (int i = 0; i < gl.getExpressionsSize(); i++) {
-//					if (gl.getExpression(i).isGeneralizedList()) {
-//						String glString = gl.getExpression(i).toString();
-//						expressionList[i] = GLFactory.unescape(glString);
-//					} else {
-//						kr.ac.uos.ai.arbi.model.Value value = gl.getExpression(i).asValue();
-//					if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.FLOAT) {
-//						expressionList[i] = value.floatValue();
-//					} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.INT) {
-//						expressionList[i] = value.intValue();
-//					} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.STRING) {
-//						String glString = value.stringValue();
-//						expressionList[i] = GLFactory.unescape(glString);
-//					} else {
-//						String glString = value.stringValue();
-//						expressionList[i] = GLFactory.unescape(glString);
-//					}
-//				}
-//			}
-//
-//			assertFact(name, expressionList);
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
 	public void assertGL(String input) {
-		String name = "";
+		interpreter.getWorldModel().assertFact(newRelationFromGL(input), null);
 
-		if (input.startsWith("(")) {
-
-			try {
-				GeneralizedList gl = GLFactory.newGLFromGLString(input);
-				name = gl.getName();
-				Object[] expressionList = new Object[gl.getExpressionsSize()];
-
-				for (int i = 0; i < gl.getExpressionsSize(); i++) {
-					if (gl.getExpression(i).isGeneralizedList()) {
-						String glString = gl.getExpression(i).toString();
-						expressionList[i] = GLFactory.unescape(glString);
-					} else {
-						kr.ac.uos.ai.arbi.model.Value value = gl.getExpression(i).asValue();
-						if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.FLOAT) {
-							expressionList[i] = value.floatValue();
-						} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.INT) {
-							expressionList[i] = value.intValue();
-						} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.STRING) {
-							String glString = value.stringValue();
-							expressionList[i] = GLFactory.unescape(glString);
-						} else {
-							String glString = value.stringValue();
-							expressionList[i] = GLFactory.unescape(glString);
-						}
-					}
-
-				}
-
-				assertFact(name, expressionList);
-
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
-	
+	public void retractGL(String input) {
+		interpreter.getWorldModel().retract(newRelationFromGL(input), null);
+	}
+
 	public void updateGL(String context) {
 		String oldContext = "";
 		String newContext = "";
+//		System.out.println(context);
 		if (context.startsWith("(")) {
 			try {
 				GeneralizedList gl = GLFactory.newGLFromGLString(context);
@@ -132,33 +49,135 @@ public class WorldModelHandler {
 				e.printStackTrace();
 			}
 		}
-		
-		updateFact(oldContext, newContext);
+
+//		System.out.println("retract");
+		this.retractGL(oldContext);
+//		System.out.println("assert");
+		this.assertGL(newContext);
+//		System.out.println("asserted");
 	}
 	
-	public void updateFact(String string, String string2) {
-		String name = "";
+	private Relation newRelation(String name, Object... args) {
 
-		if (string.startsWith("(")) {
+		LinkedList<Expression> expList = new LinkedList<Expression>();
+		if(args != null) {
+			for (Object o : args) {
+				Value v = null;
+				if(o instanceof String){
+					String argument = (String)o;
+					v = new Value(argument);
+				}else if(o instanceof Float) {
+					Float a = (Float)o;
+					v = new Value(a.doubleValue());
+				}else if(o instanceof Integer){
+					Integer i = (Integer)o;
+					v = new Value(i.intValue());
+				}else {
+					v = new Value(o);
+				}
+				expList.add(v);
+			}
+		}
+		
+		Relation r = interpreter.getWorldModel().newRelation(name, expList);
+
+		return r;
+	}
+
+	private Relation newRelationFromGL(String stringGL) {
+		String name = "";
+		LinkedList<Expression> expList = new LinkedList<Expression>();
+		
+		if (stringGL.startsWith("(")) {
 
 			try {
-				GeneralizedList gl = GLFactory.newGLFromGLString(string);
+				GeneralizedList gl = GLFactory.newGLFromGLString(stringGL);
 				name = gl.getName();
-				gl = GLFactory.newGLFromGLString(string2);
-
-				String[] expressionList = new String[gl.getExpressionsSize()];
-
+				
 				for (int i = 0; i < gl.getExpressionsSize(); i++) {
-					expressionList[i] = gl.getExpression(i).toString();
+					kr.ac.uos.ai.arbi.model.Expression expression = gl.getExpression(i);
+					Expression e = null;
+					
+					if (expression.isGeneralizedList()) {
+						String glString = gl.getExpression(i).toString();
+						String argument = GLFactory.unescape(glString);
+						e = new Value(argument);
+					} else if (expression.isValue()){
+						kr.ac.uos.ai.arbi.model.Value value = expression.asValue();
+						if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.FLOAT) {
+							Float a = value.floatValue();
+							e = new Value(a.doubleValue());
+						} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.INT) {
+							Integer intVal = value.intValue();
+							e = new Value(intVal.intValue());
+						} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.STRING) {
+							String argument = GLFactory.unescape(value.stringValue());
+							e = new Value(argument);
+						} 
+					} else if (expression.isVariable()) {
+						kr.ac.uos.ai.arbi.model.Variable variable = expression.asVariable();
+						e = new Variable(new Symbol(variable.getName()));
+					} else if (expression.isFunction()) {
+						//TODO GL Function
+						System.out.println("GL Funtion should not assert to worldmodel : " + expression);
+						String argument = GLFactory.unescape(expression.toString());
+						e = new Value(argument);
+					} else {
+						e = new Value(expression);
+					}
+					expList.add(e);
 				}
+//				System.out.println("assert relation " + name + " " + expList);
+//				interpreter.getWorldModel().assertFact(name, expList);
 
-				this.retractFact(string);
-				assertFact(name, expressionList);
+				return interpreter.getWorldModel().newRelation(name, expList);
 
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		return null;
+	}
+//	public void assertJSON(JSONObject data) {
+//	String name = "";
+//
+//
+//	try {
+//		name = data.get("Action").toString();
+//		Object[] expressionList = new Object[data.get()];
+//			for (int i = 0; i < gl.getExpressionsSize(); i++) {
+//				if (gl.getExpression(i).isGeneralizedList()) {
+//					String glString = gl.getExpression(i).toString();
+//					expressionList[i] = GLFactory.unescape(glString);
+//				} else {
+//					kr.ac.uos.ai.arbi.model.Value value = gl.getExpression(i).asValue();
+//				if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.FLOAT) {
+//					expressionList[i] = value.floatValue();
+//				} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.INT) {
+//					expressionList[i] = value.intValue();
+//				} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.STRING) {
+//					String glString = value.stringValue();
+//					expressionList[i] = GLFactory.unescape(glString);
+//				} else {
+//					String glString = value.stringValue();
+//					expressionList[i] = GLFactory.unescape(glString);
+//				}
+//			}
+//		}
+//
+//		assertFact(name, expressionList);
+//	} catch (ParseException e) {
+//		e.printStackTrace();
+//	}
+//	
+//}
+	
+	private String removeQuotationMarks(Object input) {
+		String data = input.toString();
+		if (data.startsWith("\"")) {
+			data = data.substring(1, data.length() - 1);
+		}
+		return data;
 	}
 }

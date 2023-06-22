@@ -49,7 +49,7 @@ public class ZeroMQAdaptor implements Adaptor{
 						if(message.contains("{") || message.contains("}")) break;
 					}
 				}
-				System.out.println("on message : " + message);
+//				System.out.println("on message : " + message);
 
 				try {
 					JSONParser jsonParser = new JSONParser();
@@ -59,6 +59,7 @@ public class ZeroMQAdaptor implements Adaptor{
 					
 					Decoder decoder = Base64.getDecoder();
 					String afterContent = new String(decoder.decode(content.getBytes()));
+//					System.out.println("action : " + messageObject.get("Action").toString());
 //					System.out.println("after content : " + afterContent);
 					
 //                	System.out.println("Message: " + content);
@@ -114,7 +115,7 @@ public class ZeroMQAdaptor implements Adaptor{
 		filter4.put("Action", "UpdateFact");
 		filter4.put("Flag", true);
 		filterArray.add(filter4);
-//		
+		
 //		JSONObject filter3 = new JSONObject();
 //		filter3.put("LogType", "SystemLog");
 //		filter3.put("Actor", "agent://www.arbi.com/TaskManager");
@@ -135,8 +136,9 @@ public class ZeroMQAdaptor implements Adaptor{
 //		filter6.put("Action", "PostGoal");
 //		filter6.put("Flag", true);
 //		filterArray.add(filter6);
-		createMonitorMessage.put("Filter", filterArray);
 		
+		
+		createMonitorMessage.put("Filter", filterArray);
 		zmqSocket.sendMore("");
 		zmqSocket.send(createMonitorMessage.toJSONString());
 	}
@@ -151,9 +153,9 @@ public class ZeroMQAdaptor implements Adaptor{
 	}
 	@Override
 	public void start() {
-//		System.out.println("start monitoring");
+		System.out.println("start monitoring");
 		messageRecvTask.start();
-//		System.out.println("started monitoring");
+		System.out.println("started monitoring");
 	}
 	
 }

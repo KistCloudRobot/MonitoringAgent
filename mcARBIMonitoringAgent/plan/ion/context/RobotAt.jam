@@ -5,6 +5,10 @@ PLAN CONCLUDE robotAt($robotID, $v1, $v2){
 	ID: "http://www.arbi.com//ConcludeRobotAt"
 	PRECONDITION:
 	BODY:
+		//PERFORM isro:startLog("CONCLUDE", "robotAt");
+		
 		PERFORM UpdateToLTM($robot, "robotAt");
+		
+		//PERFORM isro:endLog("CONCLUDE", "robotAt");
 	UTILITY : 200;
 }

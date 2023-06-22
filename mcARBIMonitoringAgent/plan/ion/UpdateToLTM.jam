@@ -1,123 +1,144 @@
-PLAN PERFORM updateFact($robotID, $contextName){
+PREFIXES:
+		PREFIX isro: <http://www.arbi.com//BuiltInPlan#>;
+
+
+PLAN PERFORM UpdateToLTM($robotID, $contextName){
 	ID: "http://www.arbi.com//updateFactAgentTaskStatus"
 	PRECONDITION:
-		FACT WorldModelHandler($wm);
+		FACT TaskManager($tm);
 		$contextName =="AgentTaskStatus";
 		FACT AgentTaskStatus($robotID, $id, $taskName, $status);
 	BODY:
-	
-		$ltmData = "(updateFact (AgentTaskStatus \"" + $robotID + "\" $oldV1 $oldV2 $oldV3) (AgentTaskStatus \"" + $robotID +"\" \"" + $id + "\" \"" + $taskName +"\" \"" +$status +"\"))";
-		$wm.updateFact($ltmData);
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM AgentTaskStatus");
 		
+		$ltmData = "(updateFact (AgentTaskStatus \"" + $robotID + "\" $oldV1 $oldV2 $oldV3) (AgentTaskStatus \"" + $robotID +"\" \"" + $id + "\" \"" + $taskName +"\" \"" +$status +"\"))";
+		$tm.updateFact($ltmData);
+		
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM AgentTaskStatus");
 	UTILITY : 100;
 }
 
 
-PLAN PERFORM updateFact($cargoID, $contextName){
+PLAN PERFORM UpdateToLTM($cargoID, $contextName){
 	ID: "http://www.arbi.com//updateFactCargoAt"
 	PRECONDITION:
-		FACT WorldModelHandler($wm);
+		FACT TaskManager($tm);
 		$contextName =="cargoAt";
 		FACT cargoAt($cargoID, $v1, $v2);
 	BODY:
 	
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM cargoAt");
 		$ltmData = "(updateFact (cargoAt \"" + $cargoID + "\" $oldV1 $oldV2) (cargoAt \"" + $cargoID +"\" " + $v1 + " " + $v2 +"))";
-		$wm.updateFact($ltmData);
+		$tm.updateFact($ltmData);
 		
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM cargoAt");
 	UTILITY : 100;
 }
 
-PLAN PERFORM updateFact($rackID, $contextName){
+PLAN PERFORM UpdateToLTM($rackID, $contextName){
 	ID: "http://www.arbi.com//updateFactRackAt"
 	PRECONDITION:
-		FACT WorldModelHandler($wm);
+		FACT TaskManager($tm);
 		$contextName =="rackAt";
 		FACT  rackAt($rackID, $v1, $v2);
 	BODY:
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM rackAt");
 	
 		$ltmData = "(updateFact (rackAt \"" + $rackID + "\" $oldV1 $oldV2) (rackAt \"" + $rackID +"\" " + $v1 + " " + $v2 +"))";
-		$wm.updateFact($ltmData);
+		$tm.updateFact($ltmData);
 		
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM rackAt");
 	UTILITY : 100;
 }
 
-PLAN PERFORM updateFact($robotID, $contextName){
+PLAN PERFORM UpdateToLTM($robotID, $contextName){
 	ID: "http://www.arbi.com//updateFactRobotAt"
 	PRECONDITION:
-		FACT WorldModelHandler($wm);
+		FACT TaskManager($tm);
 		$contextName =="robotAt";
 		FACT robotAt($robotID, $v1, $v2);
 	BODY:
-	
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM robotAt");
 		$ltmData = "(updateFact (robotAt \"" + $robotID + "\" $oldV1 $oldV2) (robotAt \"" + $robotID +"\" " + $v1 + " " + $v2 +"))";
-		$wm.updateFact($ltmData);
+		$tm.updateFact($ltmData);
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotAt");
 		
 	UTILITY : 100;
 }
 
-PLAN PERFORM updateFact($robotID, $contextName){
+PLAN PERFORM UpdateToLTM($robotID, $contextName){
 	ID: "http://www.arbi.com//updateFactrobotLoading"
 	PRECONDITION:
-		FACT WorldModelHandler($wm);
+		FACT TaskManager($tm);
 		$contextName =="robotLoading";
 		FACT robotLoading($robotID, $v1);
 	BODY:
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM robotLoading");
 		$ltmData = "(updateFact (robotLoading \"" + $robotID + "\" $oldV1) (robotLoading \"" + $robotID +"\" \"" + $v1 + "\"))";
-		$wm.updateFact($ltmData);
+		$tm.updateFact($ltmData);
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotLoading");
 		
 	UTILITY : 100;
 }
 
-PLAN PERFORM updateFact($robotID, $contextName){
+PLAN PERFORM UpdateToLTM($robotID, $contextName){
 	ID: "http://www.arbi.com//updateFactrobotDegree"
 	PRECONDITION:
-		FACT WorldModelHandler($wm);
+		FACT TaskManager($tm);
 		$contextName =="robotDegree";
 		FACT robotDegree($robotID, $v1);
 	BODY:
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM robotDegree");
 		$ltmData = "(updateFact (robotDegree \"" + $robotID + "\" $oldV1) (robotDegree \"" + $robotID +"\" \"" + $v1 + "\"))";
-		$wm.updateFact($ltmData);
+		$tm.updateFact($ltmData);
 		
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotDegree");
 	UTILITY : 100;
 }
 
-PLAN PERFORM updateFact($robotID, $contextName){
+PLAN PERFORM UpdateToLTM($robotID, $contextName){
 	ID: "http://www.arbi.com//updateFactrobotVelocity"
 	PRECONDITION:
-		FACT WorldModelHandler($wm);
+		FACT TaskManager($tm);
 		$contextName =="robotVelocity";
 		FACT robotVelocity($robotID, $v1);
 	BODY:
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM robotVelocity");
 		$ltmData = "(updateFact (robotVelocity \"" + $robotID + "\" $oldV1) (robotVelocity \"" + $robotID +"\" \"" + $v1 + "\"))";
-		$wm.updateFact($ltmData);
+		$tm.updateFact($ltmData);
 		
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotVelocity");
 	UTILITY : 100;
 }
 
 
-PLAN PERFORM updateFact($robotID, $contextName){
+PLAN PERFORM UpdateToLTM($robotID, $contextName){
 	ID: "http://www.arbi.com//updateFactbatteryRemain"
 	PRECONDITION:
-		FACT WorldModelHandler($wm);
+		FACT TaskManager($tm);
 		$contextName =="batteryRemain";
 		FACT batteryRemain($robotID, $v1);
 	BODY:
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM batteryRemain");
 		$ltmData = "(updateFact (batteryRemain \"" + $robotID + "\" $oldV1) (batteryRemain \"" + $robotID +"\" \"" + $v1 + "\"))";
-		$wm.updateFact($ltmData);
+		$tm.updateFact($ltmData);
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM batteryRemain");
 		
 	UTILITY : 100;
 }
 
 
-PLAN PERFORM updateFact($robotID, $contextName){
+PLAN PERFORM UpdateToLTM($robotID, $contextName){
 	ID: "http://www.arbi.com//updateFactrobotStatus"
 	PRECONDITION:
-		FACT WorldModelHandler($wm);
+		FACT TaskManager($tm);
 		$contextName =="robotStatus";
 		FACT robotStatus($robotID, $v1);
 	BODY:
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM robotStatus");
 		$ltmData = "(updateFact (robotStatus \"" + $robotID + "\" $oldV1) (robotStatus \"" + $robotID +"\" \"" + $v1 + "\"))";
-		$wm.updateFact($ltmData);
+		$tm.updateFact($ltmData);
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotStatus");
 		
 	UTILITY : 100;
 }

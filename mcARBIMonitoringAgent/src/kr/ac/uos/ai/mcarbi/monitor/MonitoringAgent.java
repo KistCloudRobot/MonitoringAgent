@@ -60,7 +60,6 @@ public class MonitoringAgent extends ArbiAgent {
 	}
 	
 	private void generateWorkflowMap() {
-
 		workflowMap = new HashMap<>();
 		workflowMap.put("AMR_LIFT1", new AgentWorkflow("AMR_LIFT1"));
 		workflowMap.put("AMR_LIFT2", new AgentWorkflow("AMR_LIFT2"));
@@ -72,7 +71,7 @@ public class MonitoringAgent extends ArbiAgent {
 		ArbiAgentExecutor.execute(brokerAddress, brokerPort, MY_ADDRESS, this, brokerType);
 		dataSource.connect(brokerAddress, brokerPort, MY_DATASOURCE_PREFIX, brokerType);
 		
-		worldModelHandler.assertFact("MessageHandler", worldModelHandler);
+		worldModelHandler.assertFact("WorldModelHandler", worldModelHandler);
 		worldModelHandler.assertFact("GLHandler", glHandler);
 		worldModelHandler.assertFact("PlanLoader", planLoader);
 		worldModelHandler.assertFact("TaskTracker", taskTracker);
