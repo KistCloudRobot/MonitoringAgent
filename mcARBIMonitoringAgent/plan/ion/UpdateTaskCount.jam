@@ -6,29 +6,47 @@ PLAN PERFORM UpdateTaskCount() {
 	BODY:
 		PERFORM isro:startLog("PERFORM", "UpdateTaskCount");
 	
+		$totalTaskCount = $tracker.getTotalTasksCount();
+		$totalTaskContext = "(update (TotalTaskCount $v) (TotalTaskCount " + $totalTaskCount +"))";
+		PERFORM isro:argumentLog("$totalTaskCount", $totalTaskCount);
+		PERFORM isro:argumentLog("$totalTaskContext", $totalTaskContext);
+		$tm.updateFact($totalTaskContext);
+			
 		$remainingTaskCount = $tracker.getPendingTasksCount();
-		$remainingTaskContext = "(RemainingTaskCount " + $remainingTaskCount +")";
-		$tm.assertFact($remainingTaskContext);
+		$remainingTaskContext = "(update (RemainingTaskCount $v) (RemainingTaskCount " + $remainingTaskCount +"))";
+		PERFORM isro:argumentLog("$remainingTaskCount", $remainingTaskCount);
+		PERFORM isro:argumentLog("$remainingTaskContext", $remainingTaskContext);
+		$tm.updateFact($remainingTaskContext);
 		
 		$completeTaskCount = $tracker.getCompletedTasksCount();
-		$completeTaskContext = "(CompletedTaskCount " + $completeTaskCount +")";
-		$tm.assertFact($completeTaskContext);
+		$completeTaskContext = "(update (CompletedTaskCount $v) (CompletedTaskCount " + $completeTaskCount +"))";
+		PERFORM isro:argumentLog("$completeTaskCount", $completeTaskCount);
+		PERFORM isro:argumentLog("$completeTaskContext", $completeTaskContext);
+		$tm.updateFact($completeTaskContext);
 		
 		$ongoingTaskCount = $tracker.getOngoingTasksCount();
-		$ongoingTaskContext = "(OngoingTaskCount " + $ongoingTaskCount +")";
-		$tm.assertFact($ongoingTaskContext);
+		$ongoingTaskContext = "(update (OngoingTaskCount $v) (OngoingTaskCount " + $ongoingTaskCount +"))";
+		PERFORM isro:argumentLog("$ongoingTaskCount", $ongoingTaskCount);
+		PERFORM isro:argumentLog("$ongoingTaskContext", $ongoingTaskContext);
+		$tm.updateFact($ongoingTaskContext);
 		
 		$newTaskCount = $tracker.getNewTasksCount();
-		$newTaskContext = "(NewTaskCount " + $newTaskCount +")";
-		$tm.assertFact($newTaskContext);
+		$newTaskContext = "(update (NewTaskCount $v) (NewTaskCount " + $newTaskCount +"))";
+		PERFORM isro:argumentLog("$newTaskCount", $newTaskCount);
+		PERFORM isro:argumentLog("$newTaskContext", $newTaskContext);
+		$tm.updateFact($newTaskContext);
 		
 		$averageSpeed = $tracker.getAverageSpeed();
-		$averageTaskContext = "(AverageTaskSpeed " + $averageSpeed +")";
-		$tm.assertFact($averageTaskContext);
+		$averageTaskContext = "(update (AverageTaskSpeed $v) (AverageTaskSpeed " + $averageSpeed +"))";
+		PERFORM isro:argumentLog("$averageSpeed", $averageSpeed);
+		PERFORM isro:argumentLog("$averageTaskContext", $averageTaskContext);
+		$tm.updateFact($averageTaskContext);
 		
 		$cumulativeSpeed = $tracker.getCumulativeSpeed();
-		$cumulativeTaskContext = "(CumulativeTaskSpeed " + $cumelativeSpeed +")";
-		$tm.assertFact($cumulativeTaskContext);
+		$cumulativeTaskContext = "(update (CumulativeTaskSpeed $v) (CumulativeTaskSpeed " + $cumulativeSpeed +"))";
+		PERFORM isro:argumentLog("$cumulativeSpeed", $cumulativeSpeed);
+		PERFORM isro:argumentLog("$cumulativeTaskContext", $cumulativeTaskContext);
+		$tm.updateFact($cumulativeTaskContext);
 		
 		ASSERT UpdateTaskCount();
 		

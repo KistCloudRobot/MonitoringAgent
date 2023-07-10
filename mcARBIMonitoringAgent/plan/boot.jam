@@ -32,9 +32,14 @@ PLAN PERFORM boot() {
 		PERFORM loadPlanPackage();
 		System.out.println("---Load Complete---");
 		
-		PERFORM initialize();
+		//PERFORM initialize();
 		
 		//PERFORM testUpdate();
-
+		RETRIEVE TaskManager($tm);
+		ASSERT TaskCreated("agent://www.mcarbi.com/Local2");
+		$tm.sleepAwhile(3000);
+		ASSERT TaskStarted("agent://www.mcarbi.com/Local2");
+		$tm.sleepAwhile(3000);
+		ASSERT TaskCompleted("agent://www.mcarbi.com/Local2");	
 		System.out.println("---Boot Complete---");
 }

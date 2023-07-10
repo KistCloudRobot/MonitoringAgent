@@ -24,7 +24,7 @@ public class WorldModelHandler {
 	}
 	
 
-	public void assertFact(String name, Object... args) {
+	public void assertObject(String name, Object... args) {
 		interpreter.getWorldModel().assertFact(newRelation(name, args), null);
 	}
 

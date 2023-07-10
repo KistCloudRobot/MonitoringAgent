@@ -1,4 +1,4 @@
-PLAN PERFORM TaskStarted($goalID) {
+PLAN CONCLUDE TaskStarted($goalID) {
 	ID: "http://www.arbi.com//TaskStarted"
 	PRECONDITION :
 		FACT TaskManager($tm);
@@ -10,5 +10,7 @@ PLAN PERFORM TaskStarted($goalID) {
 		PERFORM UpdateTaskCount();
 		
 		PERFORM isro:endLog("PERFORM", "TaskStarted");
+	EFFECTS : 
+		RETRACT TaskStarted($goalID);
 	UTILITY: 10000; 
 }

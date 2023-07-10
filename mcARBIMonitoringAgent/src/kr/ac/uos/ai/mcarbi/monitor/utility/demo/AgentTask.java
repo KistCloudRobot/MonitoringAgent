@@ -1,14 +1,16 @@
-package kr.ac.uos.ai.mcarbi.monitor.utility;
+package kr.ac.uos.ai.mcarbi.monitor.utility.demo;
 
 import java.time.LocalDateTime;
 
 public class AgentTask {
 	private String id;
+	private long createTime;
     private long startTime;
     private long endTime;
 
     public AgentTask(String id) {
         this.id = id;
+        this.createTime = System.currentTimeMillis();
         this.startTime = 0;
         this.endTime = 0;
     }
@@ -18,6 +20,10 @@ public class AgentTask {
 	}
     public void setEndTime(long endTime) {
 		this.endTime = endTime;
+	}
+    
+    public long getCreateTime() {
+		return createTime;
 	}
     
     public long getStartTime() {

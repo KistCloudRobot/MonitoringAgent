@@ -8,15 +8,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 import kr.ac.uos.ai.arbi.BrokerType;
 import kr.ac.uos.ai.arbi.agent.ArbiAgent;
 import kr.ac.uos.ai.arbi.agent.ArbiAgentExecutor;
+import kr.ac.uos.ai.arbi.model.GLFactory;
+import kr.ac.uos.ai.arbi.model.GeneralizedList;
+import kr.ac.uos.ai.arbi.model.parser.ParseException;
 import kr.ac.uos.ai.mcarbi.monitor.adaptor.Adaptor;
 import kr.ac.uos.ai.mcarbi.monitor.adaptor.ZeroMQAdaptor;
 import kr.ac.uos.ai.mcarbi.monitor.log.MonitorLogger;
 import kr.ac.uos.ai.mcarbi.monitor.message.GeneralizedListHandler;
 import kr.ac.uos.ai.mcarbi.monitor.message.ReceivedMessage;
-import kr.ac.uos.ai.mcarbi.monitor.utility.AgentWorkflow;
 import kr.ac.uos.ai.mcarbi.monitor.utility.JAMPlanLoader;
-import kr.ac.uos.ai.mcarbi.monitor.utility.TaskTracker;
+import kr.ac.uos.ai.mcarbi.monitor.utility.JarLoader;
 import kr.ac.uos.ai.mcarbi.monitor.utility.WorldModelHandler;
+import kr.ac.uos.ai.mcarbi.monitor.utility.demo.AgentWorkflow;
+import kr.ac.uos.ai.mcarbi.monitor.utility.demo.TaskTracker;
 import uos.ai.jam.Interpreter;
 import uos.ai.jam.JAM;
 
@@ -28,7 +32,10 @@ public class MonitoringAgent extends ArbiAgent {
 	private GeneralizedListHandler								glHandler;
 	private MonitorLogger 										logger;
 	private JAMPlanLoader										planLoader;
+	private JarLoader											jarLoader;
 	private MonitoringDataSource								dataSource;
+	
+	
 	private TaskTracker											taskTracker;
 	private Map<String, AgentWorkflow>							workflowMap;
 	
@@ -47,6 +54,8 @@ public class MonitoringAgent extends ArbiAgent {
 		
 		messageQueue = new LinkedBlockingQueue<ReceivedMessage>();
 		dataSource = new MonitoringDataSource(this);
+		taskTracker = new TaskTracker();
+		jarLoader = new JarLoader();
 		
 		interpreter = JAM.parse(new String[] { "./plan/boot.jam" });
 		planLoader = new JAMPlanLoader(interpreter);
@@ -71,11 +80,12 @@ public class MonitoringAgent extends ArbiAgent {
 		ArbiAgentExecutor.execute(brokerAddress, brokerPort, MY_ADDRESS, this, brokerType);
 		dataSource.connect(brokerAddress, brokerPort, MY_DATASOURCE_PREFIX, brokerType);
 		
-		worldModelHandler.assertFact("WorldModelHandler", worldModelHandler);
-		worldModelHandler.assertFact("GLHandler", glHandler);
-		worldModelHandler.assertFact("PlanLoader", planLoader);
-		worldModelHandler.assertFact("TaskTracker", taskTracker);
-		worldModelHandler.assertFact("TaskManager", this);
+		worldModelHandler.assertObject("WorldModelHandler", worldModelHandler);
+		worldModelHandler.assertObject("GLHandler", glHandler);
+		worldModelHandler.assertObject("PlanLoader", planLoader);
+		worldModelHandler.assertObject("TaskTracker", taskTracker);
+		worldModelHandler.assertObject("TaskManager", this);
+		worldModelHandler.assertObject("JarLoader", jarLoader);
 		
 		logger = new MonitorLogger(this,interpreter);
 
@@ -96,7 +106,7 @@ public class MonitoringAgent extends ArbiAgent {
 		}
 		
 		adaptor.start();
-		worldModelHandler.assertFact("AgentAdaptor", agentName ,adaptor);
+		worldModelHandler.assertObject("AgentAdaptor", agentName ,adaptor);
 	}
 	
 	public void createFilter(Adaptor adaptor, String action) {
@@ -109,9 +119,11 @@ public class MonitoringAgent extends ArbiAgent {
 		messageQueue.add(message);
 	}
 	
-	public void queueMessage(ReceivedMessage message) {
+	public void enqueueMessage(ReceivedMessage message) {
 		messageQueue.add(message);
 	}
+	
+	
 	public boolean dequeueMessage() {
 		if (messageQueue.isEmpty())
 			return false;
@@ -120,7 +132,7 @@ public class MonitoringAgent extends ArbiAgent {
 				ReceivedMessage message = messageQueue.take();
 //				System.out.println("[SENDER]  : " + message.getSender());
 				
-				worldModelHandler.assertFact("MessageReceived", message);
+				worldModelHandler.assertObject("MessageReceived", message);
 //				if(message.getMessage().startsWith("(")) {
 //					GeneralizedList gl = null;
 ////					System.out.println("[MESSAGE] : " + message.getMessage());
@@ -156,11 +168,6 @@ public class MonitoringAgent extends ArbiAgent {
 		return MY_AGENT_ID;
 	}
 	
-	
-	public static void main(String[] args) {
-		MonitoringAgent agent = new MonitoringAgent("172.16.165.185", 61314);
-	}
-	
 
 	public void assertFact(String context) {
 		dataSource.assertFact(context);
@@ -171,7 +178,17 @@ public class MonitoringAgent extends ArbiAgent {
 	}
 	
 	public void updateFact(String fact) {
-		dataSource.updateFact(fact);
+		// Demo Code
+		try {
+			GeneralizedList gl = GLFactory.newGLFromGLString(fact);
+			String str = gl.getExpression(1).toString();
+			dataSource.assertFact(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+//		dataSource.updateFact(fact);
 	}
 	
 	public int getTaskProgress(String agentID, String goal) {
@@ -180,5 +197,17 @@ public class MonitoringAgent extends ArbiAgent {
 		return workflow.getProgress();
 	}
 	
-
+	
+	public void sleepAwhile(int i) {
+		try {
+			Thread.sleep(i);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public static void main(String[] args) {
+		MonitoringAgent agent = new MonitoringAgent("172.16.165.185", 61314);
+	}
 }

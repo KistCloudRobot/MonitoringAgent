@@ -22,7 +22,7 @@ PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
 		$taskName == "MoveToLocation";
 		$status == "start";
 	BODY:
-		PERFORM  TaskStarted($id);
+		ASSERT  TaskStarted($id);
 		PERFORM UpdateTaskProgress($robot, $taskName);
 		PERFORM UpdateToLTM($robot, "AgentTaskStatus");
 	UTILITY : 102;

@@ -64,7 +64,7 @@ public class ZeroMQAdaptor implements Adaptor{
 					
 //                	System.out.println("Message: " + content);
 					ReceivedMessage receivedMessage = new ReceivedMessage(mcARBIAgentName, messageObject.get("Action").toString(), afterContent);
-                	agent.queueMessage(receivedMessage);
+                	agent.enqueueMessage(receivedMessage);
 				
 //				try {
 //					JSONParser jsonParser = new JSONParser();
