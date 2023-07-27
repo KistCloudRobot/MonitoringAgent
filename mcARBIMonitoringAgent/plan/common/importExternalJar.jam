@@ -10,8 +10,8 @@ PLAN PERFORM isro:importExternalJar($path, $classFullName) {
 	BODY:
 		PERFORM isro:startLog("PERFORM", "isro:importExternalJar");
 		
-		$object = loader.loadJar($path, $classFullName);	
-		$className = loader.getClassName($classFullName);
+		$object = $loader.loadJar($path, $classFullName);	
+		$className = $loader.getClassName($classFullName);
 		
 		$handler.assertObject($className, $object);	
 		

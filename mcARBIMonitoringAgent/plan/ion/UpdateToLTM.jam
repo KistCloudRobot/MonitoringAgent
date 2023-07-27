@@ -142,3 +142,19 @@ PLAN PERFORM UpdateToLTM($robotID, $contextName){
 		
 	UTILITY : 100;
 }
+
+
+PLAN PERFORM UpdateToLTM($robotID, $contextName){
+	ID: "http://www.arbi.com//updateFactrobotPosition"
+	PRECONDITION:
+		FACT TaskManager($tm);
+		$contextName =="robotPosition";
+		FACT robotPosition($robotID, $v1, $v2);
+	BODY:
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM robotPosition");
+		$ltmData = "(updateFact (robotPosition \"" + $robotID + "\" $oldV1 $oldV2) (robotPosition \"" + $robotID +"\" " + $v1 + " " + $v2 + "))";
+		$tm.updateFact($ltmData);
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotPosition");
+		
+	UTILITY : 100;
+}
