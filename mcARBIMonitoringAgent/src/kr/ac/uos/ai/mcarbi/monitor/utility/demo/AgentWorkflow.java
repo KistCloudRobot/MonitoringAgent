@@ -14,10 +14,23 @@ public class AgentWorkflow {
 		workflow = new ArrayList<>();
 		progress = 0;
 		
-		workflow.add("MoveToLocation");
-		workflow.add("ObjectGrabbed");
-		workflow.add("MoveToLocation");
-		workflow.add("ObjectPlaced");
+		if (agentID.contains("LIFT")) {
+			workflow.add("MoveToLocation");
+			workflow.add("ObjectGrabbed");
+			workflow.add("MoveToLocation");
+			workflow.add("ObjectPlaced");
+		} else if (agentID.contains("Epson")) {
+			workflow.add("PCBPrepared");
+			workflow.add("HousingPrepared");
+			workflow.add("HousingAssembled");
+			workflow.add("PCBAssembled");
+		} else if (agentID.contains("UR")) {
+			workflow.add("FrontPrepared");
+			workflow.add("LensPrepared");
+			workflow.add("LensAssembled");
+			workflow.add("ForntAssembled");
+		}
+		
 	}
 	public void progressWorkflow(String goal) {
 		if(progress >= workflow.size()) {

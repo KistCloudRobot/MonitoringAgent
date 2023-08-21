@@ -74,6 +74,11 @@ public class MonitoringAgent extends ArbiAgent {
 		workflowMap.put("AMR_LIFT2", new AgentWorkflow("AMR_LIFT2"));
 		workflowMap.put("AMR_LIFT3", new AgentWorkflow("AMR_LIFT3"));
 		workflowMap.put("AMR_LIFT4", new AgentWorkflow("AMR_LIFT4"));
+		workflowMap.put("AMR_LIFT2", new AgentWorkflow("AMR_LIFT5"));
+		workflowMap.put("AMR_LIFT3", new AgentWorkflow("AMR_LIFT6"));
+		workflowMap.put("AMR_LIFT4", new AgentWorkflow("AMR_LIFT7"));
+		workflowMap.put("AMR_LIFT4", new AgentWorkflow("Epson"));
+		workflowMap.put("AMR_LIFT4", new AgentWorkflow("UR"));
 	}
 	
 	private void init() {

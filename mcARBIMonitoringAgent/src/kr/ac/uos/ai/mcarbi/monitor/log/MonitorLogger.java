@@ -91,7 +91,6 @@ public class MonitorLogger implements WorldModelChangeListener, IntentionStructu
 		return newArgument;
 	}
 	
-	
 	public GoalArgument generateGoalArgument(APLElement g){
 		GoalAction action = g.getFromGoal().getGoalAction();
 		Binding b = g.getBinding();
@@ -113,7 +112,9 @@ public class MonitorLogger implements WorldModelChangeListener, IntentionStructu
 							break;
 						}
 					}
-					newArgument.addExpression(v.toString());
+					if (v == null) {
+						newArgument.addExpression(e.toString());
+					} else newArgument.addExpression(v.toString());
 				} else {
 					newArgument.addExpression(e.toString());
 				}
@@ -129,13 +130,16 @@ public class MonitorLogger implements WorldModelChangeListener, IntentionStructu
 		}else {
 			GoalArgument newArgument = new GoalArgument();
 			newArgument.setName(goal.getName());
-
 			Relation goalRelation = goal.getGoalAction().getGoal();
 			for(int i = 0; i < goalRelation.getArity();i++){
 				Expression e = goalRelation.getArg(i);
-				newArgument.addExpression(e.toString());	
+				if (e.isVariable()) {
+					newArgument.addExpression(e.getName());
+				} else {
+					newArgument.addExpression(e.toString());					
+				}
+	
 			}
-			
 			return newArgument;
 		}
 		
@@ -150,9 +154,14 @@ public class MonitorLogger implements WorldModelChangeListener, IntentionStructu
 	}
 
 	@Override
-	public void goalRemoved(APLElement goal) {
+	public void goalRemoved(Goal goal) {
 		//System.out.println("notified Goal Removal");
-		GoalArgument ga = generateGoalArgument(goal);
+		GoalArgument ga;
+		if (goal.getIntention() != null) {
+			ga = generateGoalArgument(goal.getIntention());
+		} else {
+			ga = generateNewGoalArgument(goal);
+		}
 		if(ga != null)
 			unpostGoalAction.execute(ga);
 	}
