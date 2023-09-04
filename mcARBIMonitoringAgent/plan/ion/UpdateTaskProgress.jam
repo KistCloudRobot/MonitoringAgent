@@ -1,4 +1,4 @@
-PLAN PERFORM UpdateTaskProgress() {
+PLAN PERFORM UpdateTaskProgress($robotID, $taskName) {
 	ID: "http://www.arbi.com//UpdateTaskProgress"
 	PRECONDITION :
 		FACT TaskManager($tm); 
@@ -8,7 +8,8 @@ PLAN PERFORM UpdateTaskProgress() {
 
 		$progress = $tm.getTaskProgress($robotID, $taskName);
 	
-		$data = "(TaskProgress \"" + $robotID + "\" " + $progress + ")";
+		$data = "(TaskProgress \"" + $robotID + "\" \"" + $progress + "\")";
+		System.out.println($data);
 		$tm.assertFact($data);
 		
 		PERFORM isro:endLog("PERFORM", "UpdateTaskProgress");

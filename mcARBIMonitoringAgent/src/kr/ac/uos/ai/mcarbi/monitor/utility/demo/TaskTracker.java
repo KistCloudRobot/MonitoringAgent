@@ -62,7 +62,7 @@ public class TaskTracker {
     }
 
     public int getCompletedTasksCount() {
-    	long tenMinuteAgo = System.currentTimeMillis() - (600 * 1000);
+    	long tenMinuteAgo = System.currentTimeMillis() - (600 * 100);
     	int result = 0;
     	for (AgentTask task : tasks) {
     		if (task.isCompleted()) {
@@ -75,7 +75,7 @@ public class TaskTracker {
     }
 
     public int getNewTasksCount() {
-    	long tenMinuteAgo = System.currentTimeMillis() - (600 * 1000);
+    	long tenMinuteAgo = System.currentTimeMillis() - (600 * 100);
     	int result = 0;
     	for (AgentTask task : tasks) {
     		if (task.getStartTime() > tenMinuteAgo) {

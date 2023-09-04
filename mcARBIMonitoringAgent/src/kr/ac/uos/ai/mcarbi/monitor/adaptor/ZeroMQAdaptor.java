@@ -60,9 +60,9 @@ public class ZeroMQAdaptor implements Adaptor{
 					Decoder decoder = Base64.getDecoder();
 					String afterContent = new String(decoder.decode(content.getBytes()));
 //					System.out.println("action : " + messageObject.get("Action").toString());
-//					System.out.println("after content : " + afterContent);
+					System.out.println("after content : " + afterContent);
 					
-//                	System.out.println("Message: " + content);
+//                System.out.println("Message: " + content);
 					ReceivedMessage receivedMessage = new ReceivedMessage(mcARBIAgentName, messageObject.get("Action").toString(), afterContent);
                 	agent.enqueueMessage(receivedMessage);
 				

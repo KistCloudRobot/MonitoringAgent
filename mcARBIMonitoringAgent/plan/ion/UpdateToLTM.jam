@@ -11,7 +11,7 @@ PLAN PERFORM UpdateToLTM($robotID, $contextName){
 	BODY:
 		PERFORM isro:startLog("PERFORM", "UpdateToLTM AgentTaskStatus");
 		
-		$ltmData = "(updateFact (AgentTaskStatus \"" + $robotID + "\" $oldV1 $oldV2 $oldV3) (AgentTaskStatus \"" + $robotID +"\" \"" + $id + "\" \"" + $taskName +"\" \"" +$status +"\"))";
+		$ltmData = "(updateFact (RobotTaskStatus \"" + $robotID + "\" $oldV1 $oldV2 $oldV3) (RobotTaskStatus \"" + $robotID +"\" \"" + $id + "\" \"" + $taskName +"\" \"" +$status +"\"))";
 		$tm.updateFact($ltmData);
 		
 		PERFORM isro:endLog("PERFORM", "UpdateToLTM AgentTaskStatus");
@@ -104,7 +104,7 @@ PLAN PERFORM UpdateToLTM($robotID, $contextName){
 		FACT robotVelocity($robotID, $v1);
 	BODY:
 		PERFORM isro:startLog("PERFORM", "UpdateToLTM robotVelocity");
-		$ltmData = "(updateFact (robotVelocity \"" + $robotID + "\" $oldV1) (robotVelocity \"" + $robotID +"\" \"" + $v1 + "\"))";
+		$ltmData = "(updateFact (robotSpeed \"" + $robotID + "\" $oldV1) (robotSpeed \"" + $robotID +"\" \"" + $v1 + "\"))";
 		$tm.updateFact($ltmData);
 		
 		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotVelocity");
@@ -155,6 +155,21 @@ PLAN PERFORM UpdateToLTM($robotID, $contextName){
 		$ltmData = "(updateFact (robotPosition \"" + $robotID + "\" $oldV1 $oldV2) (robotPosition \"" + $robotID +"\" " + $v1 + " " + $v2 + "))";
 		$tm.updateFact($ltmData);
 		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotPosition");
+		
+	UTILITY : 100;
+}
+
+PLAN PERFORM UpdateToLTM($robotID, $contextName){
+	ID: "http://www.arbi.com//updateFactAssembledItemCount"
+	PRECONDITION:
+		FACT TaskManager($tm);
+		$contextName =="AssembledItemCount";
+		FACT AssembledItemCount($v1);
+	BODY:
+		PERFORM isro:startLog("PERFORM", "UpdateToLTM AssembledItemCount");
+		$ltmData = "(updateFact (AssembledItemCount $oldV1) (AssembledItemCount " + $v1 + "))";
+		$tm.updateFact($ltmData);
+		PERFORM isro:endLog("PERFORM", "UpdateToLTM AssembledItemCount");
 		
 	UTILITY : 100;
 }

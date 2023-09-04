@@ -1,0 +1,11 @@
+PREFIXES:
+		PREFIX isro: <http://www.arbi.com//BuiltInPlan#>;
+
+
+PLAN CONCLUDE AssembledItemCount($count){
+	ID: "http://www.arbi.com//AssembledItemCount"
+	PRECONDITION:
+	BODY:
+		PERFORM UpdateToLTM("assemble", "AssembledItemCount");
+	UTILITY : 200;
+}

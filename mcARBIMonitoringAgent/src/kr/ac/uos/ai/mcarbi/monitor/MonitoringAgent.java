@@ -74,11 +74,11 @@ public class MonitoringAgent extends ArbiAgent {
 		workflowMap.put("AMR_LIFT2", new AgentWorkflow("AMR_LIFT2"));
 		workflowMap.put("AMR_LIFT3", new AgentWorkflow("AMR_LIFT3"));
 		workflowMap.put("AMR_LIFT4", new AgentWorkflow("AMR_LIFT4"));
-		workflowMap.put("AMR_LIFT2", new AgentWorkflow("AMR_LIFT5"));
-		workflowMap.put("AMR_LIFT3", new AgentWorkflow("AMR_LIFT6"));
-		workflowMap.put("AMR_LIFT4", new AgentWorkflow("AMR_LIFT7"));
-		workflowMap.put("AMR_LIFT4", new AgentWorkflow("Epson"));
-		workflowMap.put("AMR_LIFT4", new AgentWorkflow("UR"));
+		workflowMap.put("AMR_LIFT5", new AgentWorkflow("AMR_LIFT5"));
+		workflowMap.put("AMR_LIFT6", new AgentWorkflow("AMR_LIFT6"));
+		workflowMap.put("AMR_LIFT7", new AgentWorkflow("AMR_LIFT7"));
+		workflowMap.put("Epson", new AgentWorkflow("Epson"));
+		workflowMap.put("UR", new AgentWorkflow("UR"));
 	}
 	
 	private void init() {
@@ -196,10 +196,12 @@ public class MonitoringAgent extends ArbiAgent {
 //		dataSource.updateFact(fact);
 	}
 	
-	public int getTaskProgress(String agentID, String goal) {
+	public String getTaskProgress(String agentID, String goal) {
+		System.out.println("agent ID : " + agentID);
+		System.out.println("goal : " + goal);
 		AgentWorkflow workflow = workflowMap.get(agentID);
 		workflow.progressWorkflow(goal);
-		return workflow.getProgress();
+		return workflow.getProgress() + "/4";
 	}
 	
 	
@@ -213,6 +215,6 @@ public class MonitoringAgent extends ArbiAgent {
 	}
 	
 	public static void main(String[] args) {
-		MonitoringAgent agent = new MonitoringAgent("172.16.165.185", 61314);
+		MonitoringAgent agent = new MonitoringAgent("172.16.165.77", 41314);
 	}
 }

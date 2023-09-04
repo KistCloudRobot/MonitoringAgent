@@ -6,7 +6,7 @@ import java.util.List;
 public class AgentWorkflow {
 	
 	private final String 			agentID;
-	private List<String>			workflow;
+	private List<String>				workflow;
 	private int						progress;
 	
 	public AgentWorkflow(String agentID) {
@@ -28,7 +28,7 @@ public class AgentWorkflow {
 			workflow.add("FrontPrepared");
 			workflow.add("LensPrepared");
 			workflow.add("LensAssembled");
-			workflow.add("ForntAssembled");
+			workflow.add("FrontAssembled");
 		}
 		
 	}
@@ -37,6 +37,7 @@ public class AgentWorkflow {
 			progress = 0;
 		}
 		
+		System.out.println("waht? " + progress + " " + goal);
 		if(workflow.get(progress).equals(goal)) {
 			progress = progress + 1;
 		}
@@ -47,44 +48,44 @@ public class AgentWorkflow {
 	}
 	
 	public static void main(String[] args) {
-		AgentWorkflow test = new AgentWorkflow("AMR_LIFT1");
+		AgentWorkflow test = new AgentWorkflow("Epson");
 		
-		test.progressWorkflow("MoveToLocation");
+		test.progressWorkflow("PCBPrepared");
 		System.out.println(test.getProgress());
-		test.progressWorkflow("ObjectGrabbed");
+		test.progressWorkflow("HousingPrepared");
 		System.out.println(test.getProgress());
-		test.progressWorkflow("MoveToLocation");
+		test.progressWorkflow("HousingAssembled");
 		System.out.println(test.getProgress());
-		test.progressWorkflow("ObjectPlaced");
+		test.progressWorkflow("PCBAssembled");
 		System.out.println(test.getProgress());
 
-		test.progressWorkflow("MoveToLocation");
-		System.out.println(test.getProgress());
-		test.progressWorkflow("ObjectGrabbed");
-		System.out.println(test.getProgress());
-		test.progressWorkflow("MoveToLocation");
-		System.out.println(test.getProgress());
-		test.progressWorkflow("ObjectPlaced");
-		System.out.println(test.getProgress());
-		
-
-		test.progressWorkflow("MoveToLocation");
-		System.out.println(test.getProgress());
-		test.progressWorkflow("ObjectGrabbed");
-		System.out.println(test.getProgress());
-		test.progressWorkflow("MoveToLocation");
-		System.out.println(test.getProgress());
-		test.progressWorkflow("ObjectPlaced");
-		System.out.println(test.getProgress());
-		
-
-		test.progressWorkflow("MoveToLocation");
-		System.out.println(test.getProgress());
-		test.progressWorkflow("ObjectGrabbed");
-		System.out.println(test.getProgress());
-		test.progressWorkflow("MoveToLocation");
-		System.out.println(test.getProgress());
-		test.progressWorkflow("ObjectPlaced");
-		System.out.println(test.getProgress());
+//		test.progressWorkflow("MoveToLocation");
+//		System.out.println(test.getProgress());
+//		test.progressWorkflow("ObjectGrabbed");
+//		System.out.println(test.getProgress());
+//		test.progressWorkflow("MoveToLocation");
+//		System.out.println(test.getProgress());
+//		test.progressWorkflow("ObjectPlaced");
+//		System.out.println(test.getProgress());
+//		
+//
+//		test.progressWorkflow("MoveToLocation");
+//		System.out.println(test.getProgress());
+//		test.progressWorkflow("ObjectGrabbed");
+//		System.out.println(test.getProgress());
+//		test.progressWorkflow("MoveToLocation");
+//		System.out.println(test.getProgress());
+//		test.progressWorkflow("ObjectPlaced");
+//		System.out.println(test.getProgress());
+//		
+//
+//		test.progressWorkflow("MoveToLocation");
+//		System.out.println(test.getProgress());
+//		test.progressWorkflow("ObjectGrabbed");
+//		System.out.println(test.getProgress());
+//		test.progressWorkflow("MoveToLocation");
+//		System.out.println(test.getProgress());
+//		test.progressWorkflow("ObjectPlaced");
+//		System.out.println(test.getProgress());
 	}
 }
