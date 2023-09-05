@@ -15,15 +15,3 @@ PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
 		PERFORM UpdateToLTM($robot, "AgentTaskStatus");
 	UTILITY : 101;
 }
-
-PLAN CONCLUDE AgentTaskStatus($robot, $id, $taskName, $status){
-	ID: "http://www.arbi.com//AgentTaskStatusTaskStarted"
-	PRECONDITION:
-		$taskName == "MoveToLocation";
-		$status == "start";
-	BODY:
-		ASSERT  TaskStarted($id);
-		PERFORM UpdateTaskProgress($robot, $taskName);
-		PERFORM UpdateToLTM($robot, "AgentTaskStatus");
-	UTILITY : 102;
-}

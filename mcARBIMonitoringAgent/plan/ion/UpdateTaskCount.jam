@@ -1,4 +1,4 @@
-PLAN PERFORM UpdateTaskCount() {
+PLAN PERFORM UpdateTaskCount($env) {
 	ID: "http://www.arbi.com//UpdateTaskCount"
 	PRECONDITION :
 		FACT TaskTracker($tracker);
@@ -6,52 +6,49 @@ PLAN PERFORM UpdateTaskCount() {
 	BODY:
 		PERFORM isro:startLog("PERFORM", "UpdateTaskCount");
 	
-		$totalTaskCount = $tracker.getTotalTasksCount();
-		$totalTaskContext = "(update (TotalTaskCount $v) (TotalTaskCount " + $totalTaskCount +"))";
+		$totalTaskCount = $tracker.getTotalTasksCount($env);
+		$totalTaskContext = "(update (TotalTaskCount \""+ $env +"\" $v) (TotalTaskCount \""+ $env +"\" " + $totalTaskCount +"))";
 		PERFORM isro:argumentLog("$totalTaskCount", $totalTaskCount);
 		PERFORM isro:argumentLog("$totalTaskContext", $totalTaskContext);
 		$tm.updateFact($totalTaskContext);
 			
-		$remainingTaskCount = $tracker.getPendingTasksCount();
-		$remainingTaskContext = "(update (RemainingTaskCount $v) (RemainingTaskCount " + $remainingTaskCount +"))";
+		$remainingTaskCount = $tracker.getPendingTasksCount($env);
+		$remainingTaskContext = "(update (RemainingTaskCount \""+ $env +"\" $v) (RemainingTaskCount \""+ $env +"\" " + $remainingTaskCount +"))";
 		PERFORM isro:argumentLog("$remainingTaskCount", $remainingTaskCount);
 		PERFORM isro:argumentLog("$remainingTaskContext", $remainingTaskContext);
 		$tm.updateFact($remainingTaskContext);
 		
-		$completeTaskCount = $tracker.getCompletedTasksCount();
-		$completeTaskContext = "(update (CompletedTaskCount $v) (CompletedTaskCount " + $completeTaskCount +"))";
+		$completeTaskCount = $tracker.getCompletedTasksCount($env);
+		$completeTaskContext = "(update (CompletedTaskCount \""+ $env +"\" $v) (CompletedTaskCount \""+ $env +"\" " + $completeTaskCount +"))";
 		PERFORM isro:argumentLog("$completeTaskCount", $completeTaskCount);
 		PERFORM isro:argumentLog("$completeTaskContext", $completeTaskContext);
 		$tm.updateFact($completeTaskContext);
 		
-		$ongoingTaskCount = $tracker.getOngoingTasksCount();
-		$ongoingTaskContext = "(update (OngoingTaskCount $v) (OngoingTaskCount " + $ongoingTaskCount +"))";
+		$ongoingTaskCount = $tracker.getOngoingTasksCount($env);
+		$ongoingTaskContext = "(update (OngoingTaskCount \""+ $env +"\" $v) (OngoingTaskCount \""+ $env +"\" " + $ongoingTaskCount +"))";
 		PERFORM isro:argumentLog("$ongoingTaskCount", $ongoingTaskCount);
 		PERFORM isro:argumentLog("$ongoingTaskContext", $ongoingTaskContext);
 		$tm.updateFact($ongoingTaskContext);
 		
-		$newTaskCount = $tracker.getNewTasksCount();
-		$newTaskContext = "(update (NewTaskCount $v) (NewTaskCount " + $newTaskCount +"))";
+		$newTaskCount = $tracker.getNewTasksCount($env);
+		$newTaskContext = "(update (NewTaskCount \""+ $env +"\" $v) (NewTaskCount \""+ $env +"\" " + $newTaskCount +"))";
 		PERFORM isro:argumentLog("$newTaskCount", $newTaskCount);
 		PERFORM isro:argumentLog("$newTaskContext", $newTaskContext);
 		$tm.updateFact($newTaskContext);
 		
-		$averageSpeed = $tracker.getAverageSpeed();
-		$averageTaskContext = "(update (AverageTaskSpeed $v) (AverageTaskSpeed " + $averageSpeed +"))";
+		$averageSpeed = $tracker.getAverageSpeed($env);
+		$averageTaskContext = "(update (AverageTaskSpeed \""+ $env +"\" $v) (AverageTaskSpeed \""+ $env +"\" " + $averageSpeed +"))";
 		PERFORM isro:argumentLog("$averageSpeed", $averageSpeed);
 		PERFORM isro:argumentLog("$averageTaskContext", $averageTaskContext);
 		$tm.updateFact($averageTaskContext);
 		
-		$cumulativeSpeed = $tracker.getCumulativeSpeed();
-		$cumulativeTaskContext = "(update (CumulativeTaskSpeed $v) (CumulativeTaskSpeed " + $cumulativeSpeed +"))";
+		$cumulativeSpeed = $tracker.getCumulativeSpeed($env);
+		$cumulativeTaskContext = "(update (CumulativeTaskSpeed \""+ $env +"\" $v) (CumulativeTaskSpeed \""+ $env +"\" " + $cumulativeSpeed +"))";
 		PERFORM isro:argumentLog("$cumulativeSpeed", $cumulativeSpeed);
 		PERFORM isro:argumentLog("$cumulativeTaskContext", $cumulativeTaskContext);
 		$tm.updateFact($cumulativeTaskContext);
 		
-		ASSERT UpdateTaskCount();
-		
 		PERFORM isro:endLog("PERFORM", "UpdateTaskCount");
-	EFFECTS :
-		RETRACT UpdateTaskCount();
+
 	UTILITY: 10000; 
 }

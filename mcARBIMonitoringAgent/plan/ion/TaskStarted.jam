@@ -1,4 +1,4 @@
-PLAN CONCLUDE TaskStarted($goalID) {
+PLAN CONCLUDE TaskStarted($env, $goalID) {
 	ID: "http://www.arbi.com//TaskStarted"
 	PRECONDITION :
 		FACT TaskManager($tm);
@@ -6,11 +6,11 @@ PLAN CONCLUDE TaskStarted($goalID) {
 	BODY:
 		PERFORM isro:startLog("PERFORM", "TaskStarted");
 	
-		$tracker.startTask($goalID);
-		PERFORM UpdateTaskCount();
+		$tracker.startTask($env, $goalID);
+		PERFORM UpdateTaskCount($env);
 		
 		PERFORM isro:endLog("PERFORM", "TaskStarted");
 	EFFECTS : 
-		RETRACT TaskStarted($goalID);
+		RETRACT TaskStarted($env, $goalID);
 	UTILITY: 10000; 
 }
