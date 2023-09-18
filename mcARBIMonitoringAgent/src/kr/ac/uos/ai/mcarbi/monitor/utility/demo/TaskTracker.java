@@ -170,17 +170,17 @@ public class TaskTracker {
     	}
     	
     	if (completedTasks == 0) return 0;
-    	else return totalTime / completedTasks;
+    	else return totalTime / (completedTasks * 1000);
     }
 
     public double getCumulativeSpeed(String env) {
     	
     	if (env.equals("real")) {
     		if (realTasks.size() == 0 ) return 0;
-        	else return (System.currentTimeMillis() - createdTime) / realTasks.size() ;
+        	else return (System.currentTimeMillis() - createdTime) / (realTasks.size() * 1000) ;
     	} else if (env.equals("simulation")) {
     		if (simulationTasks.size() == 0 ) return 0;
-        	else return (System.currentTimeMillis() - createdTime) / simulationTasks.size() ;
+        	else return (System.currentTimeMillis() - createdTime) / (simulationTasks.size() * 1000) ;
     	}
     	return 0;
     }

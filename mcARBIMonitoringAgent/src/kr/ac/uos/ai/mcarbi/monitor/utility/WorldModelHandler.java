@@ -50,11 +50,11 @@ public class WorldModelHandler {
 			}
 		}
 
-//		System.out.println("retract");
+//		System.out.println("retract " + oldContext);
 		this.retractGL(oldContext);
-//		System.out.println("assert");
+//		System.out.println("assert " + newContext);
 		this.assertGL(newContext);
-//		System.out.println("asserted");
+//		System.out.println("asserted");s
 	}
 	
 	private Relation newRelation(String name, Object... args) {
@@ -139,39 +139,6 @@ public class WorldModelHandler {
 		}
 		return null;
 	}
-//	public void assertJSON(JSONObject data) {
-//	String name = "";
-//
-//
-//	try {
-//		name = data.get("Action").toString();
-//		Object[] expressionList = new Object[data.get()];
-//			for (int i = 0; i < gl.getExpressionsSize(); i++) {
-//				if (gl.getExpression(i).isGeneralizedList()) {
-//					String glString = gl.getExpression(i).toString();
-//					expressionList[i] = GLFactory.unescape(glString);
-//				} else {
-//					kr.ac.uos.ai.arbi.model.Value value = gl.getExpression(i).asValue();
-//				if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.FLOAT) {
-//					expressionList[i] = value.floatValue();
-//				} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.INT) {
-//					expressionList[i] = value.intValue();
-//				} else if (value.getType() == kr.ac.uos.ai.arbi.model.Value.Type.STRING) {
-//					String glString = value.stringValue();
-//					expressionList[i] = GLFactory.unescape(glString);
-//				} else {
-//					String glString = value.stringValue();
-//					expressionList[i] = GLFactory.unescape(glString);
-//				}
-//			}
-//		}
-//
-//		assertFact(name, expressionList);
-//	} catch (ParseException e) {
-//		e.printStackTrace();
-//	}
-//	
-//}
 	
 	private String removeQuotationMarks(Object input) {
 		String data = input.toString();

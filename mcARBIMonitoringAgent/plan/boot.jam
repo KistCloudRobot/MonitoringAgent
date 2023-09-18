@@ -9,7 +9,7 @@ GOALS:
 	PERFORM	boot;
 	
 FACTS:
-	FACT LOG;
+	FACT ArgumentLOG;
 	FACT AGENT_ALIAS("TaskManager",	"agent://www.arbi.com/TaskManager" );
 	FACT CURRENT_TIME (0);
 
@@ -37,13 +37,60 @@ PLAN PERFORM boot() {
 		//PERFORM testUpdate();
 		RETRIEVE TaskManager($tm);
 		System.out.println("---Boot Complete---");
+
+
 }
 
 /*
-ASSERT TaskCreated("agent://www.mcarbi.com/Local2");
+		
+		ASSERT TaskCreated("real","agent://www.mcarbi.com/Local1");
 		$tm.sleepAwhile(3000);
-		ASSERT TaskStarted("agent://www.mcarbi.com/Local2");
+		ASSERT TaskCreated("real","agent://www.mcarbi.com/Local2");
 		$tm.sleepAwhile(3000);
-		ASSERT TaskCompleted("agent://www.mcarbi.com/Local2");	
+		
+		ASSERT TaskCreated("real","agent://www.mcarbi.com/Local3");
+		$tm.sleepAwhile(3000);
+		
+		ASSERT TaskCreated("real","agent://www.mcarbi.com/Local4");
+		$tm.sleepAwhile(3000);
+		
+				ASSERT TaskCreated("simulation","agent://www.mcarbi.com/Local12");
+		$tm.sleepAwhile(3000);
+		
+		ASSERT TaskCreated("simulation","agent://www.mcarbi.com/Local13");
+		$tm.sleepAwhile(3000);
+		
+		ASSERT TaskCreated("simulation","agent://www.mcarbi.com/Local14");
+		$tm.sleepAwhile(3000);
+		
+		ASSERT TaskStarted("real","agent://www.mcarbi.com/Local2");
+		$tm.sleepAwhile(3000);
+				ASSERT TaskStarted("real","agent://www.mcarbi.com/Local1");
+		$tm.sleepAwhile(3000);
+				ASSERT TaskStarted("real","agent://www.mcarbi.com/Local4");
+		$tm.sleepAwhile(3000);
+				ASSERT TaskStarted("real","agent://www.mcarbi.com/Local3");
+		$tm.sleepAwhile(3000);
+				ASSERT TaskStarted("simulation","agent://www.mcarbi.com/Local12");
+		$tm.sleepAwhile(3000);
+				ASSERT TaskStarted("simulation","agent://www.mcarbi.com/Local14");
+		$tm.sleepAwhile(3000);
+				ASSERT TaskStarted("simulation","agent://www.mcarbi.com/Local13");
+		$tm.sleepAwhile(3000);
+		ASSERT TaskCompleted("real","agent://www.mcarbi.com/Local4");	
+		$tm.sleepAwhile(3000);
+		ASSERT TaskCompleted("real","agent://www.mcarbi.com/Local3");	
+		$tm.sleepAwhile(3000);
+		ASSERT TaskCompleted("real","agent://www.mcarbi.com/Local1");	
+		$tm.sleepAwhile(3000);
+		ASSERT TaskCompleted("real","agent://www.mcarbi.com/Local2");	
+		
+		ASSERT TaskCompleted("simulation","agent://www.mcarbi.com/Local13");	
+		$tm.sleepAwhile(3000);
+		ASSERT TaskCompleted("simulation","agent://www.mcarbi.com/Local14");	
+		$tm.sleepAwhile(3000);
+		ASSERT TaskCompleted("simulation","agent://www.mcarbi.com/Local12");	
+
 		
 */
+

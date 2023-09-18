@@ -6,6 +6,6 @@ PLAN CONCLUDE robotStatus($robotID, $status){
 	ID: "http://www.arbi.com//BuiltInPlan#concludeRobotStatus"
 	PRECONDITION:
 	BODY:
-		PERFORM UpdateToLTM($robot, "robotStatus");
+		PERFORM UpdateToLTM($robotID, "robotStatus");
 	UTILITY : 200;
 }

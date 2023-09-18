@@ -89,7 +89,7 @@ PLAN PERFORM UpdateToLTM($robotID, $contextName){
 		FACT robotDegree($robotID, $v1);
 	BODY:
 		PERFORM isro:startLog("PERFORM", "UpdateToLTM robotDegree");
-		$ltmData = "(updateFact (robotDegree \"" + $robotID + "\" $oldV1) (robotDegree \"" + $robotID +"\" \"" + $v1 + "\"))";
+		$ltmData = "(updateFact (robotDegree \"" + $robotID + "\" $oldV1) (robotDegree \"" + $robotID +"\" " + $v1 + "))";
 		$tm.updateFact($ltmData);
 		
 		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotDegree");
@@ -104,7 +104,7 @@ PLAN PERFORM UpdateToLTM($robotID, $contextName){
 		FACT robotVelocity($robotID, $v1);
 	BODY:
 		PERFORM isro:startLog("PERFORM", "UpdateToLTM robotVelocity");
-		$ltmData = "(updateFact (robotSpeed \"" + $robotID + "\" $oldV1) (robotSpeed \"" + $robotID +"\" \"" + $v1 + "\"))";
+		$ltmData = "(updateFact (robotSpeed \"" + $robotID + "\" $oldV1) (robotSpeed \"" + $robotID +"\" " + $v1 + "))";
 		$tm.updateFact($ltmData);
 		
 		PERFORM isro:endLog("PERFORM", "UpdateToLTM robotVelocity");
@@ -120,7 +120,7 @@ PLAN PERFORM UpdateToLTM($robotID, $contextName){
 		FACT batteryRemain($robotID, $v1);
 	BODY:
 		PERFORM isro:startLog("PERFORM", "UpdateToLTM batteryRemain");
-		$ltmData = "(updateFact (batteryRemain \"" + $robotID + "\" $oldV1) (batteryRemain \"" + $robotID +"\" \"" + $v1 + "\"))";
+		$ltmData = "(updateFact (batteryRemain \"" + $robotID + "\" $oldV1) (batteryRemain \"" + $robotID +"\" " + $v1 + "))";
 		$tm.updateFact($ltmData);
 		PERFORM isro:endLog("PERFORM", "UpdateToLTM batteryRemain");
 		

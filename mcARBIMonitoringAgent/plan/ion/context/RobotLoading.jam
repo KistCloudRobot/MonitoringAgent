@@ -5,7 +5,6 @@ PLAN CONCLUDE robotLoading($robotID, $load){
 	ID: "http://www.arbi.com//concludeRobotLoading"
 	PRECONDITION:
 	BODY:
-		PERFORM UpdateToLTM($robot, "robotLoading");
+		PERFORM UpdateToLTM($robotID, "robotLoading");
 	UTILITY : 200;
 }
-

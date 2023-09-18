@@ -7,11 +7,12 @@ PLAN CONCLUDE MessageReceived($message) {
 	BODY:
 		PERFORM isro:startLog("CONCLUDE", "ReceivedMessage UpdateFact");
 		
+		//System.out.println("CONCLUDE MessageReceived" + $message.getMessage());
 		$handler.updateGL($message.getMessage());
 				
 		PERFORM isro:endLog("CONCLUDE", "ReceivedMessage UpdateFact");
 	EFFECTS :
-		RETRACT ReceivedMessage($message);
+		RETRACT MessageReceived($message);
 	UTILITY: 10; 
 }
 
@@ -28,7 +29,7 @@ PLAN CONCLUDE MessageReceived($message) {
 		
 		PERFORM isro:endLog("CONCLUDE", "ReceivedMessage AssertFact");
 	EFFECTS :
-		RETRACT ReceivedMessage($message);
+		RETRACT MessageReceived($message);
 	UTILITY: 10; 
 }
 
@@ -44,6 +45,6 @@ PLAN CONCLUDE MessageReceived($message) {
 		
 		PERFORM isro:endLog("CONCLUDE", "ReceivedMessage");
 	EFFECTS :
-		RETRACT ReceivedMessage($message);
+		RETRACT MessageReceived($message);
 	UTILITY: 9; 
 }

@@ -6,6 +6,6 @@ PLAN CONCLUDE batteryRemain($robotID, $remain){
 	ID: "http://www.arbi.com//concludeBatteryRemain"
 	PRECONDITION:
 	BODY:
-		PERFORM UpdateToLTM($robot, "batteryRemain");
+		PERFORM UpdateToLTM($robotID, "batteryRemain");
 	UTILITY : 200;
 }

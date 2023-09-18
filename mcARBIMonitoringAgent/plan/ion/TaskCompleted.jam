@@ -12,6 +12,6 @@ PLAN CONCLUDE TaskCompleted($env, $goalID) {
 		
 		PERFORM isro:endLog("CONCLUDE", "TaskCompleted");
 	EFFECTS :
-		RETRACT TaskCompleted($goalID);
+		RETRACT TaskCompleted($env, $goalID);
 	UTILITY: 10000; 
 }

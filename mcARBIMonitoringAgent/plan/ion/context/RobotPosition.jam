@@ -6,7 +6,7 @@ PLAN CONCLUDE robotPosition($robotID, $x, $y){
 	ID: "http://www.arbi.com//concludeRobotPosition"
 	PRECONDITION:
 	BODY:
-		PERFORM UpdateToLTM($robot, "robotPosition");
+		PERFORM UpdateToLTM($robotID, "robotPosition");
 	UTILITY : 200;
 }
 

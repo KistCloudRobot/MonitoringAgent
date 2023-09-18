@@ -70,7 +70,7 @@ PLAN PERFORM isro:argumentLog($argument, $value){
 		"argument Log"
 	
 	PRECONDITION:
-		FACT LOG;
+		FACT ArgumentLOG;
 		
 	BODY:
 		System.out.println("JAM PLAN argument "+$argument+" : "+ $value);
