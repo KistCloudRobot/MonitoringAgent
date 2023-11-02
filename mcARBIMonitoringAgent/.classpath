@@ -8,7 +8,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/jeromq-0.5.3.jar"/>
 	<classpathentry kind="lib" path="lib/json-simple-1.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JAM"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Java-mcARBIFramework"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ARBIFramework-1.2d"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Jam(0.7.1)"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AgentCommunicationFramework"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

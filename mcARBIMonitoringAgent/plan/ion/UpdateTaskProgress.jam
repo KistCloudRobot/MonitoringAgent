@@ -9,7 +9,7 @@ PLAN PERFORM UpdateTaskProgress($robotID, $taskName) {
 		$progress = $tm.getTaskProgress($robotID, $taskName);
 	
 		$data = "(TaskProgress \"" + $robotID + "\" \"" + $progress + "\")";
-		System.out.println($data);
+		PERFORM isro:argumentLog("$TaskProgress", $data);
 		$tm.assertFact($data);
 		
 		PERFORM isro:endLog("PERFORM", "UpdateTaskProgress");

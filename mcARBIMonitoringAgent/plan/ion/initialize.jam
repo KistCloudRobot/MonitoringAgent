@@ -1,6 +1,7 @@
 PLAN PERFORM initialize() {
-	ID : "initializeForMonitor"
+	ID : "initializeForLogistic"
 	PRECONDITION :
+		FACT Logistic();
 		FACT TaskManager($tm);
 	BODY :
 		System.out.println("---initialize---");
@@ -10,6 +11,25 @@ PLAN PERFORM initialize() {
 		
 	UTILITY : 10000;
 }
+
+PLAN PERFORM initialize() {
+	ID : "initializeForAssembly"
+	PRECONDITION :
+		FACT Assembly();
+		FACT TaskManager($tm);
+	BODY :
+		System.out.println("---initialize as SemanticMap---");
+
+		System.out.println("---start ChannelInit---");
+		
+		PERFORM connectAgentChannel("Assembly", $channel);
+		
+		ASSERT Channel("Assembly", $channel);
+		System.out.println("---end ChannelInit---");
+		
+	UTILITY : 10000;
+}
+
 
 		/*
 		System.out.println("---befor retrieve---");

@@ -13,7 +13,6 @@ import org.zeromq.ZMQ.Socket;
 
 import kr.ac.uos.ai.mcarbi.monitor.MonitoringAgent;
 import kr.ac.uos.ai.mcarbi.monitor.message.ReceivedMessage;
-import test.interactionManager.TestZeroMQMonitor; 
 
 public class ZeroMQAdaptor implements Adaptor{
 	private Context 					zmqContext;
@@ -63,8 +62,8 @@ public class ZeroMQAdaptor implements Adaptor{
 					System.out.println("after content : " + afterContent);
 					
 //                System.out.println("Message: " + content);
-					ReceivedMessage receivedMessage = new ReceivedMessage(mcARBIAgentName, messageObject.get("Action").toString(), afterContent);
-                	agent.enqueueMessage(receivedMessage);
+//					ReceivedMessage receivedMessage = new ReceivedMessage(mcARBIAgentName, messageObject.get("Action").toString(), afterContent);
+//                	agent.enqueueMessage(receivedMessage);
 				
 //				try {
 //					JSONParser jsonParser = new JSONParser();
@@ -148,7 +147,7 @@ public class ZeroMQAdaptor implements Adaptor{
 		zmqSocket.send(message);
 	}
 	public static void main(String[] args) {
-		ZeroMQAdaptor monitor = new ZeroMQAdaptor(null, "test", "172.16.165.185", 51116);
+		ZeroMQAdaptor monitor = new ZeroMQAdaptor(null, "test", "210.125.176.77", 8888);
 		monitor.start();
 	}
 	@Override

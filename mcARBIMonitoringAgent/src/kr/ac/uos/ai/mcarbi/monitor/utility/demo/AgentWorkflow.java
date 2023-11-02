@@ -37,7 +37,7 @@ public class AgentWorkflow {
 			progress = 0;
 		}
 		
-		System.out.println("waht? " + progress + " " + goal);
+//		System.out.println("waht? " + progress + " " + goal);
 		if(workflow.get(progress).equals(goal)) {
 			progress = progress + 1;
 		}

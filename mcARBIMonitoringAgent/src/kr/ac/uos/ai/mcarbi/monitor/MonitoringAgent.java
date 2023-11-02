@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import kr.ac.uos.ai.agentCommunicationFramework.agent.AgentExecutor;
 import kr.ac.uos.ai.arbi.BrokerType;
 import kr.ac.uos.ai.arbi.agent.ArbiAgent;
 import kr.ac.uos.ai.arbi.agent.ArbiAgentExecutor;
@@ -35,6 +36,7 @@ public class MonitoringAgent extends ArbiAgent {
 	private JAMPlanLoader										planLoader;
 	private JarLoader											jarLoader;
 	private MonitoringDataSource								dataSource;
+	private MultiAgentCommunicator 								agentCommunicator;
 	
 	
 	private TaskTracker											taskTracker;
@@ -45,11 +47,12 @@ public class MonitoringAgent extends ArbiAgent {
 	private BrokerType brokerType =								BrokerType.ACTIVEMQ;
 
 	private final String MY_AGENT_ID = 							"agent://www.mcarbi.com/MonitoringManager";
+	private final String SEMANTICMAP_ID = 						"agent://www.mcarbi.com/SemanticMapManager";
 	private final String MY_ADDRESS = 							"agent://www.arbi.com/TaskManager";	
 	private final String MY_DATASOURCE_PREFIX = 				"ds://www.arbi.com/TaskManager";
 
 
-	public MonitoringAgent(String brokerAddress, int brokerPort) {
+	public MonitoringAgent(String env, String brokerAddress, int brokerPort) {
 		this.brokerAddress = brokerAddress;
 		this.brokerPort = brokerPort;
 		
@@ -66,7 +69,7 @@ public class MonitoringAgent extends ArbiAgent {
 		//for Demo
 		generateWorkflowMap();
 		
-		init();
+		init(env);
 	}
 	
 	private void generateWorkflowMap() {
@@ -82,7 +85,18 @@ public class MonitoringAgent extends ArbiAgent {
 		workflowMap.put("UR", new AgentWorkflow("UR"));
 	}
 	
-	private void init() {
+	private void init(String env) {
+		if(env.equals("Logistic")) {
+			worldModelHandler.assertGL("(Logistic)");
+		} else if(env.equals("Assembly")) {
+			worldModelHandler.assertGL("(Assembly)");
+			
+			agentCommunicator = new MultiAgentCommunicator(messageQueue);
+
+			AgentExecutor.execute(brokerHost, SEMANTICMAP_ID, agentCommunicator, kr.ac.uos.ai.agentCommunicationFramework.BrokerType.ACTIVEMQ);
+			worldModelHandler.assertObject("AgentCommunication", agentCommunicator);
+			worldModelHandler.assertObject("Channel", "base", agentCommunicator.getBaseChannel());
+		}
 		ArbiAgentExecutor.execute(brokerAddress, brokerPort, MY_ADDRESS, this, brokerType);
 		dataSource.connect(brokerAddress, brokerPort, MY_DATASOURCE_PREFIX, brokerType);
 		
@@ -200,8 +214,8 @@ public class MonitoringAgent extends ArbiAgent {
 	}
 	
 	public String getTaskProgress(String agentID, String goal) {
-		System.out.println("agent ID : " + agentID);
-		System.out.println("goal : " + goal);
+//		System.out.println("agent ID : " + agentID);
+//		System.out.println("goal : " + goal);
 		AgentWorkflow workflow = workflowMap.get(agentID);
 		workflow.progressWorkflow(goal);
 		return workflow.getProgress() + "/4";
@@ -218,6 +232,6 @@ public class MonitoringAgent extends ArbiAgent {
 	}
 	
 	public static void main(String[] args) {
-		MonitoringAgent agent = new MonitoringAgent("172.16.165.77", 41314);
+		MonitoringAgent agent = new MonitoringAgent("Logistic", "172.16.165.77", 41314);
 	}
 }

@@ -17,6 +17,24 @@ PLAN CONCLUDE MessageReceived($message) {
 }
 
 PLAN CONCLUDE MessageReceived($message) {
+	ID: "http://www.arbi.com//MessageReceived_channel"
+	PRECONDITION :
+		FACT TaskManager($tm);
+		$message.getAction() == "channel";
+		FACT WorldModelHandler($handler);
+	BODY:
+		PERFORM isro:startLog("CONCLUDE", "ReceivedMessage UpdateFact");
+		
+		//System.out.println("CONCLUDE MessageReceived" + $message.getMessage());
+		$handler.updateGL($message.getMessage());
+				
+		PERFORM isro:endLog("CONCLUDE", "ReceivedMessage UpdateFact");
+	EFFECTS :
+		RETRACT MessageReceived($message);
+	UTILITY: 10; 
+}
+
+PLAN CONCLUDE MessageReceived($message) {
 	ID: "http://www.arbi.com//MessageReceived_AssertFact"
 	PRECONDITION :
 		FACT TaskManager($tm);
