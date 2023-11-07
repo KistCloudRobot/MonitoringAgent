@@ -12,6 +12,7 @@ import kr.ac.uos.ai.arbi.agent.ArbiAgentExecutor;
 import kr.ac.uos.ai.arbi.model.GLFactory;
 import kr.ac.uos.ai.arbi.model.GeneralizedList;
 import kr.ac.uos.ai.arbi.model.parser.ParseException;
+import kr.ac.uos.ai.mcarbi.monitor.adaptor.ActiveMQAdaptor;
 import kr.ac.uos.ai.mcarbi.monitor.adaptor.Adaptor;
 import kr.ac.uos.ai.mcarbi.monitor.adaptor.SocketAdaptor;
 import kr.ac.uos.ai.mcarbi.monitor.adaptor.ZeroMQAdaptor;
@@ -125,6 +126,8 @@ public class MonitoringAgent extends ArbiAgent {
 			adaptor = new ZeroMQAdaptor(this, agentName, ip, port);
 		} else if (brokerType.equals("Socket")) {
 			adaptor = new SocketAdaptor(this, agentName, ip, port);
+		} else if (brokerType.equals("ActiveMQ")) {
+			adaptor = new ActiveMQAdaptor(this, agentName, ip, port);
 		}
 		
 		adaptor.start();
